@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,16 @@ class Usuarios
      * @ORM\Column(type="integer")
      */
     private $admin_super_user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\UnidadGestion", mappedBy="unidad_gestion_usuarios")
+     */
+    private $unidadGestions;
+
+    public function __construct()
+    {
+        $this->unidadGestions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -153,6 +165,34 @@ class Usuarios
     public function setAdminSuperUser(int $admin_super_user): self
     {
         $this->admin_super_user = $admin_super_user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UnidadGestion[]
+     */
+    public function getUnidadGestions(): Collection
+    {
+        return $this->unidadGestions;
+    }
+
+    public function addUnidadGestion(UnidadGestion $unidadGestion): self
+    {
+        if (!$this->unidadGestions->contains($unidadGestion)) {
+            $this->unidadGestions[] = $unidadGestion;
+            $unidadGestion->addUnidadGestionUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUnidadGestion(UnidadGestion $unidadGestion): self
+    {
+        if ($this->unidadGestions->contains($unidadGestion)) {
+            $this->unidadGestions->removeElement($unidadGestion);
+            $unidadGestion->removeUnidadGestionUsuario($this);
+        }
 
         return $this;
     }

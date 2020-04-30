@@ -26,6 +26,10 @@ class Tipos
      */
     private $descripcion;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PartesInteresadas")
+     */
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,4 +58,6 @@ class Tipos
 
         return $this;
     }
+
+  
 }

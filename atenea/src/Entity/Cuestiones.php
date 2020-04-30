@@ -38,9 +38,15 @@ class Cuestiones
      */
     private $aspectos;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\UnidadGestion", inversedBy="cuestiones")
+     */
+    private $cuestion_unidadGestion;
+
     public function __construct()
     {
         $this->aspectos = new ArrayCollection();
+        $this->cuestion_unidadGestion = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,6 +113,32 @@ class Cuestiones
         if ($this->aspectos->contains($aspecto)) {
             $this->aspectos->removeElement($aspecto);
             $aspecto->removeAspectoCuestione($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UnidadGestion[]
+     */
+    public function getCuestionUnidadGestion(): Collection
+    {
+        return $this->cuestion_unidadGestion;
+    }
+
+    public function addCuestionUnidadGestion(UnidadGestion $cuestionUnidadGestion): self
+    {
+        if (!$this->cuestion_unidadGestion->contains($cuestionUnidadGestion)) {
+            $this->cuestion_unidadGestion[] = $cuestionUnidadGestion;
+        }
+
+        return $this;
+    }
+
+    public function removeCuestionUnidadGestion(UnidadGestion $cuestionUnidadGestion): self
+    {
+        if ($this->cuestion_unidadGestion->contains($cuestionUnidadGestion)) {
+            $this->cuestion_unidadGestion->removeElement($cuestionUnidadGestion);
         }
 
         return $this;
