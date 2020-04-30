@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,16 @@ class Cuestiones
      * @ORM\ManyToOne(targetEntity="App\Entity\Subtipos")
      */
     private $subtipos;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Aspectos", mappedBy="Aspecto_Cuestiones")
+     */
+    private $aspectos;
+
+    public function __construct()
+    {
+        $this->aspectos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +80,34 @@ class Cuestiones
     public function setSubtipos(?Subtipos $subtipos): self
     {
         $this->subtipos = $subtipos;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Aspectos[]
+     */
+    public function getAspectos(): Collection
+    {
+        return $this->aspectos;
+    }
+
+    public function addAspecto(Aspectos $aspecto): self
+    {
+        if (!$this->aspectos->contains($aspecto)) {
+            $this->aspectos[] = $aspecto;
+            $aspecto->addAspectoCuestione($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAspecto(Aspectos $aspecto): self
+    {
+        if ($this->aspectos->contains($aspecto)) {
+            $this->aspectos->removeElement($aspecto);
+            $aspecto->removeAspectoCuestione($this);
+        }
 
         return $this;
     }
