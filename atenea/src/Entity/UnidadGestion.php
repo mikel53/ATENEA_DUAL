@@ -43,10 +43,6 @@ class UnidadGestion
      */
     private $contratos;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Usuarios", inversedBy="unidadGestions")
-     */
-    private $unidad_gestion_usuarios;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Cuestiones", mappedBy="cuestion_unidadGestion")
@@ -124,31 +120,7 @@ class UnidadGestion
         return $this;
     }
 
-    /**
-     * @return Collection|Usuarios[]
-     */
-    public function getUnidadGestionUsuarios(): Collection
-    {
-        return $this->unidad_gestion_usuarios;
-    }
-
-    public function addUnidadGestionUsuario(Usuarios $unidadGestionUsuario): self
-    {
-        if (!$this->unidad_gestion_usuarios->contains($unidadGestionUsuario)) {
-            $this->unidad_gestion_usuarios[] = $unidadGestionUsuario;
-        }
-
-        return $this;
-    }
-
-    public function removeUnidadGestionUsuario(Usuarios $unidadGestionUsuario): self
-    {
-        if ($this->unidad_gestion_usuarios->contains($unidadGestionUsuario)) {
-            $this->unidad_gestion_usuarios->removeElement($unidadGestionUsuario);
-        }
-
-        return $this;
-    }
+  
 
     /**
      * @return Collection|Cuestiones[]
