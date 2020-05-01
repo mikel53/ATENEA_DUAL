@@ -49,6 +49,11 @@ class UnidadGestion
      */
     private $cuestiones;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\UnidadGestion")
+     */
+    private $unidadGestion;
+
     public function __construct()
     {
         $this->unidad_gestion_usuarios = new ArrayCollection();
@@ -146,6 +151,18 @@ class UnidadGestion
             $this->cuestiones->removeElement($cuestione);
             $cuestione->removeCuestionUnidadGestion($this);
         }
+
+        return $this;
+    }
+
+    public function getUnidadGestion(): ?self
+    {
+        return $this->unidadGestion;
+    }
+
+    public function setUnidadGestion(?self $unidadGestion): self
+    {
+        $this->unidadGestion = $unidadGestion;
 
         return $this;
     }
