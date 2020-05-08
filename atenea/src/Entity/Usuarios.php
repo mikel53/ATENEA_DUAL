@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsuariosRepository")
  */
-class Usuarios
+class Usuarios implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -54,18 +56,19 @@ class Usuarios
     private $password;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="json")
      */
-    private $admin_super_user;
+    private $roles = [];
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\UnidadGestion", mappedBy="unidad_gestion_usuarios")
+     * @ORM\OneToMany(targetEntity="App\Entity\UsuarioRolGestion", mappedBy="usuarios",cascade={"persist", "remove"})
      */
-    private $unidadGestions;
+    private $usuarioRolGestions;
 
     public function __construct()
     {
         $this->unidadGestions = new ArrayCollection();
+        $this->usuarioRolGestions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,6 +84,23 @@ class Usuarios
     public function setNombre(string $nombre): self
     {
         $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->nombre;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->nombre = $username;
 
         return $this;
     }
@@ -101,7 +121,35 @@ class Usuarios
     {
         return $this->telefono;
     }
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
+        return array_unique($roles);
+    }
+    public function getRole(): ?string
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        $text = "";
+        for ($i=0; $i < $roles.length ; $i++) {
+          $text =+ $this->$roles[$i];
+        }
+        return $text;
+        //return array_unique($roles);
+    }
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
     public function setTelefono(int $telefono): self
     {
         $this->telefono = $telefono;
@@ -157,43 +205,55 @@ class Usuarios
         return $this;
     }
 
-    public function getAdminSuperUser(): ?int
+
+
+    /**
+     * @return Collection|UsuarioRolGestion[]
+     */
+    public function getUsuarioRolGestions(): Collection
     {
-        return $this->admin_super_user;
+        return $this->usuarioRolGestions;
     }
 
-    public function setAdminSuperUser(int $admin_super_user): self
+    public function addUsuarioRolGestion(UsuarioRolGestion $usuarioRolGestion): self
     {
-        $this->admin_super_user = $admin_super_user;
+        if (!$this->usuarioRolGestions->contains($usuarioRolGestion)) {
+            $this->usuarioRolGestions[] = $usuarioRolGestion;
+            $usuarioRolGestion->setUsuarios($this);
+        }
 
         return $this;
+    }
+
+    public function removeUsuarioRolGestion(UsuarioRolGestion $usuarioRolGestion): self
+    {
+        if ($this->usuarioRolGestions->contains($usuarioRolGestion)) {
+            $this->usuarioRolGestions->removeElement($usuarioRolGestion);
+            // set the owning side to null (unless already changed)
+            if ($usuarioRolGestion->getUsuarios() === $this) {
+                $usuarioRolGestion->setUsuarios(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     /**
-     * @return Collection|UnidadGestion[]
+     * @see UserInterface
      */
-    public function getUnidadGestions(): Collection
+    public function eraseCredentials()
     {
-        return $this->unidadGestions;
-    }
-
-    public function addUnidadGestion(UnidadGestion $unidadGestion): self
-    {
-        if (!$this->unidadGestions->contains($unidadGestion)) {
-            $this->unidadGestions[] = $unidadGestion;
-            $unidadGestion->addUnidadGestionUsuario($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUnidadGestion(UnidadGestion $unidadGestion): self
-    {
-        if ($this->unidadGestions->contains($unidadGestion)) {
-            $this->unidadGestions->removeElement($unidadGestion);
-            $unidadGestion->removeUnidadGestionUsuario($this);
-        }
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }

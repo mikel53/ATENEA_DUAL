@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200430183917 extends AbstractMigration
+final class Version20200507171549 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,9 @@ final class Version20200430183917 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE tipos DROP FOREIGN KEY FK_F3C63625AA5E6DA1');
-        $this->addSql('DROP INDEX IDX_F3C63625AA5E6DA1 ON tipos');
-        $this->addSql('ALTER TABLE tipos DROP partes_interesadas_id');
+        $this->addSql('ALTER TABLE usuario_rol_gestion DROP FOREIGN KEY FK_A031EEB9DB38439E');
+        $this->addSql('DROP INDEX IDX_A031EEB9DB38439E ON usuario_rol_gestion');
+        $this->addSql('ALTER TABLE usuario_rol_gestion DROP usuario_id');
     }
 
     public function down(Schema $schema) : void
@@ -32,8 +32,8 @@ final class Version20200430183917 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE tipos ADD partes_interesadas_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE tipos ADD CONSTRAINT FK_F3C63625AA5E6DA1 FOREIGN KEY (partes_interesadas_id) REFERENCES partes_interesadas (id)');
-        $this->addSql('CREATE INDEX IDX_F3C63625AA5E6DA1 ON tipos (partes_interesadas_id)');
+        $this->addSql('ALTER TABLE usuario_rol_gestion ADD usuario_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE usuario_rol_gestion ADD CONSTRAINT FK_A031EEB9DB38439E FOREIGN KEY (usuario_id) REFERENCES usuarios (id)');
+        $this->addSql('CREATE INDEX IDX_A031EEB9DB38439E ON usuario_rol_gestion (usuario_id)');
     }
 }

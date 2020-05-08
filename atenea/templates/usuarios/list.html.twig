@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Llistat d'usuaris{% endblock %}
+{% block body %}
+    <section class="bg-white text-black mb-0">
+        <div class="container">
+            <section class="row">
+                <div class="col-md-8">
+                    <h1>Lista de Usuarios</h1>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="btn-group float-right mt-2" role="group">
+                        <a class="btn btn-primary btn-md" href="{{ path('usuarios_new') }}">+ Nou Usuari</a>
+                    </div>
+
+                </div>
+            </section>
+
+            {% if searchTerm is defined %}
+                <div class="row">
+                    <div class="col-md-8">
+                        <p>Resultats de cerca per: <strong>{{ searchTerm }}</strong></p>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-default btn-sm float-right" href="{{ path('alchol_list') }}">x Esborrar resultats</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success">
+                    <strong>Success!</strong> {{ message }}
+                </div>
+            {% endfor %}
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Telefono</th>
+                        <th>Mail</th>
+                        <th>Fecha Alta</th>
+                        <th>Fecha Baja</th>
+                        <th>AdminSuperUser</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuarios in usuarios %}
+                        <tr>
+                            <td>{{ usuarios.nombre }}</td>
+                            <td>{{ usuarios.apellidos }}</td>
+                            <td>{{ usuarios.telefono }}</td>
+                            <td>{{ usuarios.mail }}</td>
+                            <td>{{ usuarios.fechaAlta|date("m/d/Y") }}</td>
+                            <td>{{ usuarios.fechaBaja|date("m/d/Y") }}</td>
+
+                            <td>
+                                <a class="btn btn-secondary btn-md" href="{{ path('usuarios_edit', {'id': usuarios.id}) }}">Editar</a>
+                                <a class="btn btn-danger btn-md" href="{{ path('usuarios_delete', {'id': usuarios.id}) }}">Eliminar</a>
+                            </td>
+
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No hi ha alchol.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <form name="form" method="post" action="{#{ path('alchol_search') }#}">
+                <div id="form">
+                    <div class="form-group">
+                        <label for="form_term" class="form-control-label required"><em><strong>Formulari de Cerca</strong></em></label>
+                        <input type="text" id="form_term" name="term" required="required" class="form-control" placeholder="Nombre de Usuario">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="form_save" name="save" class="btn-secondary btn">Cerca</button>
+                    </div>
+            </form>
+
+        </div>
+
+    </section>
+
+{% endblock %}

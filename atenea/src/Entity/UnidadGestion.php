@@ -125,7 +125,7 @@ class UnidadGestion
         return $this;
     }
 
-  
+
 
     /**
      * @return Collection|Cuestiones[]

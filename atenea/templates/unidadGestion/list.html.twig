@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Unindades de gestion{% endblock %}
+{% block body %}
+    <section class="bg-white text-black mb-0">
+        <div class="container">
+            <section class="row">
+                <div class="col-md-8">
+                    <h1>Lista de Unindades de gestion</h1>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="btn-group float-right mt-2" role="group">
+                     <a class="btn btn-primary btn-md" href="{{ path('unindadGestion_new') }}">+ Nueva unindadGestion</a>
+                    </div>
+
+                </div>
+            </section>
+
+            {% if searchTerm is defined %}
+                <div class="row">
+                    <div class="col-md-8">
+                        <p>Resultats de cerca per: <strong>{{ searchTerm }}</strong></p>
+                    </div>
+                    <div class="col-md-4">
+                    <!--Esborrar results-->
+                    </div>
+                </div>
+            {% endif %}
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success">
+                    <strong>Success!</strong> {{ message }}
+                </div>
+            {% endfor %}
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha Alta</th>
+                        <th>Fecha Baja</th>
+                        <th>Nombre</th>
+                        <th>Entidad</th>
+                        <th>Contratos</th>
+                        <th>UnidadGestion</th>
+
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for unidadGestion in unidadGestion %}
+                        <tr>
+                            <td>{{ unidadGestion.fechaAlta|date("m/d/Y") }}</td>
+                            <td>{{ unidadGestion.fechaBaja|date("m/d/Y") }}</td>
+                            <td>{{ unidadGestion.nombre }}</td>
+                            <td>{{ unidadGestion.cooEmEmpl }}</td>
+                            {% if unidadGestion.contratos %}
+                          <td>{{ unidadGestion.contratos.descripcion }}</td>
+                          {% else %}
+                            <td> null </td>
+
+                        {% endif %}
+                              {% if unidadGestion.unidadGestion %}
+                            <td>{{ unidadGestion.unidadGestion.nombre }}</td>
+                            {% else %}
+                              <td> null </td>
+
+                          {% endif %}
+                          <td>
+                              <a class="btn btn-secondary btn-md" href="{{ path('unidadGestion_edit', {'id': unidadGestion.id}) }}">Editar</a>
+                              <a class="btn btn-danger btn-md" href="{{ path('unidadGestion_delete', {'id': unidadGestion.id}) }}">Eliminar</a>
+                          </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No hi ha alchol.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <form name="form" method="post" action="{#{ path('alchol_search') }#}">
+                <div id="form">
+                    <div class="form-group">
+                        <label for="form_term" class="form-control-label required"><em><strong>Formulari de Cerca</strong></em></label>
+                        <input type="text" id="form_term" name="term" required="required" class="form-control" placeholder="Nom de la unidad de gestion">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="form_save" name="save" class="btn-secondary btn">Cerca</button>
+                    </div>
+            </form>
+
+        </div>
+
+    </section>
+
+{% endblock %}

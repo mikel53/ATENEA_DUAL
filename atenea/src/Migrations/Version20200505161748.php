@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200430184602 extends AbstractMigration
+final class Version20200505161748 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,9 @@ final class Version20200430184602 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE cuestiones_unidad_gestion (cuestiones_id INT NOT NULL, unidad_gestion_id INT NOT NULL, INDEX IDX_795DA744A0EA9215 (cuestiones_id), INDEX IDX_795DA7449B2B1C2B (unidad_gestion_id), PRIMARY KEY(cuestiones_id, unidad_gestion_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE cuestiones_unidad_gestion ADD CONSTRAINT FK_795DA744A0EA9215 FOREIGN KEY (cuestiones_id) REFERENCES cuestiones (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE cuestiones_unidad_gestion ADD CONSTRAINT FK_795DA7449B2B1C2B FOREIGN KEY (unidad_gestion_id) REFERENCES unidad_gestion (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE usuario_rol_gestion ADD usuarios_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE usuario_rol_gestion ADD CONSTRAINT FK_A031EEB9F01D3B25 FOREIGN KEY (usuarios_id) REFERENCES usuarios (id)');
+        $this->addSql('CREATE INDEX IDX_A031EEB9F01D3B25 ON usuario_rol_gestion (usuarios_id)');
     }
 
     public function down(Schema $schema) : void
@@ -32,6 +32,8 @@ final class Version20200430184602 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE cuestiones_unidad_gestion');
+        $this->addSql('ALTER TABLE usuario_rol_gestion DROP FOREIGN KEY FK_A031EEB9F01D3B25');
+        $this->addSql('DROP INDEX IDX_A031EEB9F01D3B25 ON usuario_rol_gestion');
+        $this->addSql('ALTER TABLE usuario_rol_gestion DROP usuarios_id');
     }
 }

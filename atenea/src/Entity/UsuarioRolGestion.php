@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Entity;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,10 +17,7 @@ class UsuarioRolGestion
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Usuarios")
-     */
-    private $usuario;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Permisos")
@@ -31,22 +29,16 @@ class UsuarioRolGestion
      */
     private $unidadGestion;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Usuarios", inversedBy="usuarioRolGestions")
+     */
+    private $usuarios;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsuario(): ?Usuarios
-    {
-        return $this->usuario;
-    }
-
-    public function setUsuario(?Usuarios $usuario): self
-    {
-        $this->usuario = $usuario;
-
-        return $this;
-    }
 
     public function getPermiso(): ?Permisos
     {
@@ -68,6 +60,18 @@ class UsuarioRolGestion
     public function setUnidadGestion(?UnidadGestion $unidadGestion): self
     {
         $this->unidadGestion = $unidadGestion;
+
+        return $this;
+    }
+
+    public function getUsuarios(): ?Usuarios
+    {
+        return $this->usuarios;
+    }
+
+    public function setUsuarios(?Usuarios $usuarios): self
+    {
+        $this->usuarios = $usuarios;
 
         return $this;
     }

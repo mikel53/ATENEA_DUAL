@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Llistat d'alchol{% endblock %}
+{% block body %}
+    <section class="bg-white text-black mb-0">
+        <div class="container">
+            <section class="row">
+                <div class="col-md-8">
+                    <h1>Lista de Usuarios</h1>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="btn-group float-right mt-2" role="group">
+                        <a class="btn btn-primary btn-md" href="{{ path('usuarioRolGestion _new') }}">+ Nova Relacio Usuari Gestió Rol</a>
+                    </div>
+
+                </div>
+            </section>
+
+            {% if searchTerm is defined %}
+                <div class="row">
+                    <div class="col-md-8">
+                        <p>Resultats de cerca per: <strong>{{ searchTerm }}</strong></p>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-default btn-sm float-right" href="{{ path('alchol_list') }}">x Esborrar resultats</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success">
+                    <strong>Success!</strong> {{ message }}
+                </div>
+            {% endfor %}
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                          <th>Permiso</th>
+                          <th>Unidad de gestion</th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuarioRolGestion in usuarioRolGestion %}
+                        <tr>
+                            <td>{{ usuarioRolGestion.usuarios.nombre }}</td>
+                            <td>{{ usuarioRolGestion.permiso.tipos }}</td>
+                            <td>{{ usuarioRolGestion.unidadGestion.nombre }}</td>
+
+                            <td>
+                                <a class="btn btn-secondary btn-md" href="{{ path('suarioRolGestion_edit', {'id': usuarioRolGestion.id}) }}">Editar</a>
+                                <a class="btn btn-danger btn-md" href="{{ path('usuarioRolGestion_delete', {'id': usuarioRolGestion.id}) }}">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No hi ha relacions.</td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+            <form name="form" method="post" action="{#{ path('alchol_search') }#}">
+                <div id="form">
+                    <div class="form-group">
+                        <label for="form_term" class="form-control-label required"><em><strong>Formulari de Cerca</strong></em></label>
+                        <input type="text" id="form_term" name="term" required="required" class="form-control" placeholder="Nombre de Usuario">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="form_save" name="save" class="btn-secondary btn">Cerca</button>
+                    </div>
+            </form>
+
+        </div>
+
+    </section>
+
+{% endblock %}
