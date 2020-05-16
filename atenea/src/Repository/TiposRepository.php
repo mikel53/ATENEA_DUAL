@@ -19,6 +19,21 @@ class TiposRepository extends ServiceEntityRepository
         parent::__construct($registry, Tipos::class);
     }
 
+    public function findByInternos(){
+        $q = $this->createQueryBuilder('t')
+        ->select('t')
+        ->Where('t.interno=1')->getQuery();
+        $result = $q->getResult();
+        return $result;
+    }
+
+    public function findByExternos(){
+        $q = $this->createQueryBuilder('t')
+        ->select('t')
+        ->Where('t.interno=0')->getQuery();
+        $result = $q->getResult();
+        return $result;
+    }
     // /**
     //  * @return Tipos[] Returns an array of Tipos objects
     //  */

@@ -18,10 +18,6 @@ class Cuestiones
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $ineterno;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -54,17 +50,6 @@ class Cuestiones
         return $this->id;
     }
 
-    public function getIneterno(): ?bool
-    {
-        return $this->ineterno;
-    }
-
-    public function setIneterno(bool $ineterno): self
-    {
-        $this->ineterno = $ineterno;
-
-        return $this;
-    }
 
     public function getDescripcion(): ?string
     {

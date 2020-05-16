@@ -16,10 +16,6 @@ class Subtipos
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $interno;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -36,17 +32,6 @@ class Subtipos
         return $this->id;
     }
 
-    public function getInterno(): ?bool
-    {
-        return $this->interno;
-    }
-
-    public function setInterno(bool $interno): self
-    {
-        $this->interno = $interno;
-
-        return $this;
-    }
 
     public function getDescripcion(): ?string
     {

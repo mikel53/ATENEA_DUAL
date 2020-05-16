@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    QSSMA
+{% endblock %}
+
+
+{% block body %}
+    <section class="bg-white text-black mb-0">
+        <div class="container">
+            <section class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4"></div>
+            </section>
+            <div class="row">
+                <div class="col-md-4">
+                    <h1>Id i nom Tipus</h1>
+                    <table id="tipos" class="table table-striped">
+                        <thead>
+                            <th>Tipus Id</th>
+                            <th>Nom Tipus</th>
+                        </thead>
+                        <tbody>
+                            {% for c in cuestiones %}
+                                <tr class="tipo">
+                                    <td>
+                                        {{c.id }}
+                                    </td>
+                                    <td>
+                                        {{ c.descripcion }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfooter>
+                            <a class="btn btn-secondary btn-md" href="{{ path('tipos_nuevo') }}">Nuevo</a>
+                        </tfooter>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+            {% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}QSSMA{% endblock %}
+
+
+{% block body %}
+    <section class="bg-white text-black mb-0">
+        <div class="container">
+            <section class="row">
+                <div class="col-md-8">
+                </div>
+                <div class="col-md-4">
+                </div>
+            </section>
+
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success">
+                    <strong>Success!</strong> {{ message }}
+                </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-md-4">
+                    <h1>Id i nom Tipus</h1>
+                    <table id="tipos" class="table table-striped">
+                        <thead>
+                            <th>Tipus Id</th>
+                            <th>Nom Tipus</th>
+                        </thead>
+                        <tbody>
+                            {% for t in tipos %}
+                                <tr class="tipo">
+                                    <td> {{t.id }} </td>
+                                    <td> {{ t.descripcion }} </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfooter>
+                            <a class="btn btn-secondary btn-md" href="{{ path('tipos_nuevo') }}">Nuevo</a>
+                        </tfooter>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <h1>Id i Nom Subtipus</h1>
+                    <table id="subtipus" class="table table-striped">
+                        <thead>
+                            <th>Subtipus Id</th>
+                            <th>Nom Subtipus</th>   
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                        <tfooter>
+                            <a class="btn btn-secondary btn-md" href="{{ path('subtipos_nuevo') }}">Nuevo</a>
+                        </tfooter>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <h1>Id i nom QE</h1>
+                    <table  id="cuestion" class="table table-striped">
+                        <thead>
+                            <th>Id</th>
+                            <th>Nom Questio interna</th>
+                        <thead>
+                        <tbody>
+
+                        </tbody>
+                        <tfooter>
+                            <a class="btn btn-secondary btn-md" href="{{ path('cuestiones_internas_nuevo') }}">Nuevo</a>
+                            <a id="cuestionEdit" class="btn btn-secondary btn-md">Editar</a>
+                        </tfooter>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js" 
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+    crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+
+            $(".tipo").on("click", function(event){
+                $(".cuestion").remove();
+                $(".subtipo").remove();
+                var u = ($(this).index());
+                var uid = $(".tipo")[u];
+                uid = uid.children[0].innerText;
+                $.ajax({
+                    url:  '../list/' + uid,
+                    type: 'POST',
+                    data: {id: uid},
+                    dataType: 'json',
+                    async: true,
+
+                    success: function(data, status){
+                        for(i = 0; i < data.length; i++){
+                            var subtipus = data[i];
+                            var e = $('<tr class="subtipo"><td id="subtipus_id"></td><td id="subtipus_nom"></td></tr>')
+                            $('#subtipus_id', e).html(subtipus["id"]);
+                            $('#subtipus_nom',e).html(subtipus["descripcion"]);
+                            $('#subtipus').append(e);
+                        }
+                            $(".subtipo").on("click", function (event) {
+                            $(".cuestion").remove();
+                            var c = ($(this).index());
+                            var cid = $(".subtipo")[c];
+                            cid = cid.children[0].innerText;
+
+                        $.ajax({
+                            url: '../list/bysub/' + cid,
+                            type: "POST",
+                            data: { id: cid},
+                            dataType: 'json',
+                            async: true,
+
+                    success: function (data, status) {
+                            for(i = 0; i < data.length; i++){
+                                var cuestion = data[i];
+                                var e = $('<tr class="cuestion"><td id="cuestion_id"></td><td id="cuestion_nom"></td></tr>')
+                                $('#cuestion_id', e).html(cuestion["id"]);
+                                $('#cuestion_nom',e).html(cuestion["descripcion"]);
+                                $('#cuestion').append(e);
+                            }                                    
+                                    console.log(data);
+                                },
+                                error: function (xhr, textStatus, errorThrown) {
+                                    alert('Mierda Peticion');
+                                }
+                            });
+                        });
+                    },
+                    error : function(xhr, textStatus, errorThrown) {  
+                        alert('Ajax request failed.');  
+                    }                 
+               });
+
+            });
+            
+            
+        }); 
+    
+    </script>
+ 
+{% endblock %}

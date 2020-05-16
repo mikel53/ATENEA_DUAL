@@ -19,6 +19,14 @@ class SubtiposRepository extends ServiceEntityRepository
         parent::__construct($registry, Subtipos::class);
     }
 
+    public function findByTipo($id){
+        $q = $this->createQueryBuilder('c')
+        ->where('c.tipos=:tipos_id')->setParameter('tipos_id', $id)
+        ->getQuery()->getResult();
+        return $q;
+
+    }
+
     // /**
     //  * @return Subtipos[] Returns an array of Subtipos objects
     //  */
