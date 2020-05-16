@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\component\Form\FormTypeInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -64,7 +65,7 @@ class UnidadGestionController extends AbstractController
      */
     public function new(Request $request)
     {
-        $unidadGestion= new UnidadGestion();
+        $unidadGestion = new UnidadGestion();
 
         //podem personalitzar el text passant una opció 'submit' al builder de la classe jugadorType
         $form = $this->createForm(UnidadGestionType::class, $unidadGestion, array('submit'=>'Crear Unindad de Gestion'));
@@ -104,12 +105,7 @@ var_dump($entitat);
 
 var_dump($poblacions);
 
-                $form->add('unidadGestion', EntityType::class, array(
-                    'class' => UnidadGestion::class,
-                    'choices' => $poblacions,
-                    'choice_label' => 'nombre'
-                ));
-
+              
 
 
         return $this->render('unidadGestion/unidadGestion.html.twig', array(

@@ -39,9 +39,9 @@ class UnidadGestionType extends AbstractType
             ->add('Contratos', EntityType::class, array('class' => Contratos::class,
             'choice_label' => 'descripcion'))
 
-
             ->add('UnidadGestion', EntityType::class, array('class' => UnidadGestion::class,
             'choice_label' => 'nombre'))
+
 
 
 
