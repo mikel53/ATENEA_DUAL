@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Llistat d'usuaris{% endblock %}
+{% block title %}Listado de usuarios{% endblock %}
 {% block body %}
     <section class="bg-white text-black mb-0">
         <div class="container">
@@ -11,7 +11,7 @@
                 <div class="col-md-4">
 
                     <div class="btn-group float-right mt-2" role="group">
-                        <a class="btn btn-primary btn-md" href="{{ path('usuarios_new') }}">+ Nou Usuari</a>
+                        <a class="btn btn-primary btn-md" href="{{ path('usuarios_new') }}">+ Nuevo Usuario</a>
                     </div>
 
                 </div>
@@ -20,17 +20,17 @@
             {% if searchTerm is defined %}
                 <div class="row">
                     <div class="col-md-8">
-                        <p>Resultats de cerca per: <strong>{{ searchTerm }}</strong></p>
+                        <p>Resulados de busqueda por: <strong>{{ searchTerm }}</strong></p>
                     </div>
                     <div class="col-md-4">
-                        <a class="btn btn-default btn-sm float-right" href="{{ path('alchol_list') }}">x Esborrar resultats</a>
+                        <a class="btn btn-default btn-sm float-right" href="{{ path('alchol_list') }}">x Eliminar resultados</a>
                     </div>
                 </div>
             {% endif %}
 
             {% for message in app.flashes('notice') %}
                 <div class="alert alert-success">
-                    <strong>Success!</strong> {{ message }}
+                    <strong>Conseguido!</strong> {{ message }}
                 </div>
             {% endfor %}
 
@@ -40,7 +40,7 @@
                         <th>Nombre</th>
                         <th>Apellidos</th>
                         <th>Telefono</th>
-                        <th>Mail</th>
+                        <th>Correo</th>
                         <th>Fecha Alta</th>
                         <th>Fecha Baja</th>
                         <th>AdminSuperUser</th>
@@ -66,7 +66,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="5">No hi ha alchol.</td>
+                            <td colspan="5">No hay Usuarios.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -75,11 +75,11 @@
             <form name="form" method="post" action="{#{ path('alchol_search') }#}">
                 <div id="form">
                     <div class="form-group">
-                        <label for="form_term" class="form-control-label required"><em><strong>Formulari de Cerca</strong></em></label>
+                        <label for="form_term" class="form-control-label required"><em><strong>Formulario de búsqueda</strong></em></label>
                         <input type="text" id="form_term" name="term" required="required" class="form-control" placeholder="Nombre de Usuario">
                     </div>
                     <div class="form-group">
-                        <button type="submit" id="form_save" name="save" class="btn-secondary btn">Cerca</button>
+                        <button type="submit" id="form_save" name="save" class="btn-secondary btn">Buscador</button>
                     </div>
             </form>
 
