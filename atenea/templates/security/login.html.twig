@@ -3,6 +3,13 @@
 {% block title %}Entrar!{% endblock %}
 
 {% block body %}
+<header class="masthead bg-white">
+    <div class="container">
+        <img class="img-fluid mb-5 d-block" src="{{ absolute_url(asset ('img/logo.png')) }}" alt="">
+        <h1 class="mb-0">Projecte ATENEA Symfony</h1>
+        <hr class="star-light">
+    </div>
+</header>
 <form method="post" class="container">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

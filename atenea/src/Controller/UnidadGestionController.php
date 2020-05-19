@@ -38,7 +38,7 @@ use Symfony\Component\WebLink\EventListener\AddLinkHeaderListener;
 class UnidadGestionController extends AbstractController
 {
     /**
-     * @Route("/unindadGestion", name="unindadGestion")
+     * @Route("/unidadGestion", name="unidadGestion")
      */
     public function index()
     {
@@ -48,7 +48,7 @@ class UnidadGestionController extends AbstractController
     }
 
     /**
-     * @Route("/unindadGestion/list", name="unidadGestion_list")
+     * @Route("/unidadGestion/list", name="unidadGestion_list")
      */
     public function list()
     {
@@ -61,14 +61,14 @@ class UnidadGestionController extends AbstractController
     }
 
     /**
-     * @Route("/unindadGestion/new", name="unindadGestion_new")
+     * @Route("/unidadGestion/new", name="unidadGestion_new")
      */
     public function new(Request $request)
     {
         $unidadGestion = new UnidadGestion();
 
         //podem personalitzar el text passant una opció 'submit' al builder de la classe jugadorType
-        $form = $this->createForm(UnidadGestionType::class, $unidadGestion, array('submit'=>'Crear Unindad de Gestion'));
+        $form = $this->createForm(UnidadGestionType::class, $unidadGestion, array('submit'=>'Crear Unidad de Gestion'));
 
         $form->handleRequest($request);
 
@@ -105,7 +105,7 @@ var_dump($entitat);
 
 var_dump($poblacions);
 
-              
+
 
 
         return $this->render('unidadGestion/unidadGestion.html.twig', array(
@@ -169,10 +169,34 @@ var_dump($poblacions);
 
         $this->addFlash(
             'notice',
-            'Unindad de Gestion eliminado: '.$nombreUnidad
+            'Unidad de Gestion eliminado: '.$nombreUnidad
         );
 
         return $this->redirectToRoute('unidadGestion_list');
     }
+      /**
+  * @Route("/unidadGestion/search", name="unidadGestion_filtrar")
+  */
+  public function filtrar(Request $request)
+  {
+  //recollim el paràmetre 'equipoLiga' enviat per post
+  $term = $request->request->get('unidadGestionTipo');
 
+  if($term == 'todos'){
+   $unidadGestion = $this->getDoctrine()
+       ->getRepository(UnidadGestion::class)
+       ->findAll();
+
+  } else{
+     $unidadGestion = $this->getDoctrine()
+      ->getRepository(UnidadGestion::class)
+      ->findBy(array('coo_em_empl' => $term));
+      //findLikeNom($term);
+  }
+
+
+
+  return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion, 'searchTerm' => $term]);
+
+  }
 }

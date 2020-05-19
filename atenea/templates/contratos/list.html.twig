@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Listado de usuarios{% endblock %}
+{% block title %}Listado de contratos{% endblock %}
 {% block body %}
     <section class="bg-white text-black mb-0">
         <div class="container">
@@ -11,7 +11,7 @@
                 <div class="col-md-4">
 
                     <div class="btn-group float-right mt-2" role="group">
-                        <a class="btn btn-primary btn-md" href="{{ path('usuarios_new') }}">+ Nuevo Usuario</a>
+                        <a class="btn btn-primary btn-md" href="{{ path('contratos_new') }}">+ Nuevo Contratos</a>
                     </div>
 
                 </div>
@@ -23,7 +23,7 @@
                         <p>Resulados de busqueda por: <strong>{{ searchTerm }}</strong></p>
                     </div>
                     <div class="col-md-4">
-                        <a class="btn btn-default btn-sm float-right" href="{{ path('usuarios_list') }}">x Eliminar resultados</a>
+                        <a class="btn btn-default btn-sm float-right" href="{{ path('contratos_list') }}">x Eliminar resultados</a>
                     </div>
                 </div>
             {% endif %}
@@ -37,36 +37,31 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Telefono</th>
-                        <th>Correo</th>
+                        <th>Id</th>
                         <th>Fecha Alta</th>
-                        <th>Fecha Baja</th>
-                        <th>AdminSuperUser</th>
+                        <th>Fecha alta</th>
+                        <th>Descripcion</th>
+
 
 
                     </tr>
                 </thead>
                 <tbody>
-                    {% for usuarios in usuarios %}
+                    {% for contratos in contratos %}
                         <tr>
-                            <td>{{ usuarios.nombre }}</td>
-                            <td>{{ usuarios.apellidos }}</td>
-                            <td>{{ usuarios.telefono }}</td>
-                            <td>{{ usuarios.mail }}</td>
-                            <td>{{ usuarios.fechaAlta|date("m/d/Y") }}</td>
-                            <td>{{ usuarios.fechaBaja|date("m/d/Y") }}</td>
+                            <td>{{ contratos.id }}</td>
+                            <td>{{ contratos.fechaAlta|date("m/d/Y") }}</td>
+                            <td>{{ contratos.fechaBaja|date("m/d/Y") }}</td>
+                            <td>{{ contratos.descripcion }}</td>
 
                             <td>
-                                <a class="btn btn-secondary btn-md" href="{{ path('usuarios_edit', {'id': usuarios.id}) }}">Editar</a>
-                                <a class="btn btn-danger btn-md" href="{{ path('usuarios_delete', {'id': usuarios.id}) }}">Eliminar</a>
+                                <a class="btn btn-secondary btn-md" href="{{ path('contratos_edit', {'id': contratos.id}) }}">Editar</a>
                             </td>
 
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="5">No hay Usuarios.</td>
+                            <td colspan="5">No hay Contratos.</td>
                         </tr>
                     {% endfor %}
                 </tbody>

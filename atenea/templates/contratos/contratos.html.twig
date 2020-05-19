@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+	<section class="bg-white text-black mb-0">
+        <div class="container">
+            <section class="row">
+                <div class="col-md-8">
+                    <h1>{{ title }}</h1>
+                </div>
+                <div class="col-md-4">
+                    <div class="btn-group float-right mt-2" role="group">
+                        <a class="btn btn-primary btn-md" href="{{ path('usuarios_list') }}">&laquo; Volver</a>
+                    </div>
+                </div>
+            </section>
+		    {{ form_start(form) }}
+		        {{ form_widget(form) }}
+		    {{ form_end(form) }}
+		</div>
+	</section>
+{% endblock %}

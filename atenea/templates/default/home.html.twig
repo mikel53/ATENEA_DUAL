@@ -4,21 +4,14 @@
 {% block body %}
     <!-- Header -->
 
-    <header class="masthead bg-white">
-        <div class="container">
-            <img class="img-fluid mb-5 d-block" src="{{ absolute_url(asset ('img/logo.png')) }}" alt="">
-            <h1 class="mb-0">Projecte ATENEA Symfony</h1>
-            <hr class="star-light">
-        </div>
-    </header>
-
     <!-- About Section -->
     <section class="bg-white text-black mb-0">
         <div class="container">
-            <h2 class="text-black">Atenea</h2>
+            <h2 class="text-black">Atenea default</h2>
                 <div class="row">
                         <div class="col-lg-12">
-
+                            <a class="btn btn-primary btn-md" href="{{ path('menu01') }}"> Gestion Administartiva</a>
+                            <a class="btn btn-primary btn-md" href="{{ path('menu0') }}" > Gestion Técnica</a>
                         </div>
                 </div>
 

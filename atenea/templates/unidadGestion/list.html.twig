@@ -11,7 +11,7 @@
                 <div class="col-md-4">
 
                     <div class="btn-group float-right mt-2" role="group">
-                     <a class="btn btn-primary btn-md" href="{{ path('unindadGestion_new') }}">+ Nueva unindadGestion</a>
+                     <a class="btn btn-primary btn-md" href="{{ path('unidadGestion_new') }}">+ Nueva unindadGestion</a>
                     </div>
 
                 </div>
@@ -81,16 +81,22 @@
                 </tbody>
             </table>
 
-            <form name="form" method="post" action="{#{ path('alchol_search') }#}">
+            <form name="form" method="post" action="{{ path('unidadGestion_filtrar') }}">
                 <div id="form">
                     <div class="form-group">
-                        <label for="form_term" class="form-control-label required"><em><strong>Formulario de búsqueda</strong></em></label>
-                        <input type="text" id="form_term" name="term" required="required" class="form-control" placeholder="Nombre de Usuario">
+                        <select name="unindadGestionTipo">
+                        <option value="todos">Todos</option>
+                            <option value="Coo">Coorporacio</option>
+                            <option value="Em">Empresa</option>
+                            <option value="Empl">Emplaçament</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <button type="submit" id="form_save" name="save" class="btn-secondary btn">BUscador</button>
+                        <button type="submit" id="form_save" name="save" class="btn-secondary btn">Cerca</button>
                     </div>
             </form>
+
+        </div>
 
         </div>
 
