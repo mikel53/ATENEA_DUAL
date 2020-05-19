@@ -48,8 +48,19 @@ class CuestionesRepository extends ServiceEntityRepository
         ->innerJoin('st.tipos', 't')
         ->where('c.subtipos = st.id')
         ->andWhere('st.tipos = t.id')
-        ->andWhere('t.interno = 0')
+        ->andWhere('t.interno = 1')
         ->getQuery()->getResult();
+        return $q;
+    }
+
+    public function findByInternasForm(){
+        $q = $this->createQueryBuilder('c')
+        ->innerJoin('c.subtipos', 'st')
+        ->innerJoin('st.tipos', 't')
+        ->where('c.subtipos = st.id')
+        ->andWhere('st.tipos = t.id')
+        ->andWhere('t.interno = 1')
+        ->distinct();
         return $q;
     }
 

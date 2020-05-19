@@ -67,4 +67,30 @@ class SubTiposController extends AbstractController
             'title' => 'Nuevo Subtipo',
         ));
     }
+
+      /**
+      * @Route("/subtipos/edita/{id}" , name="subtipos_edita")
+      */
+
+      public function editSubTipo(Request $request, $id){
+
+        $subtipo = $this->getDoctrine()->getRepository(SubTipos::class)
+        ->find($id);
+
+        $form = $this->createForm(SubTipoType::class, $subtipo, array(
+            'submit'=>'Guardar'
+        ));
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $tipo = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($subtipo);
+            $entityManager->flush();
+            return $this->redirectToRoute('cuestiones_internas_list');
+        }
+        return $this->render('subtipos/subtipo.html.twig', array(
+            'form'=>$form->createView(),
+            'title'=>'Editar Subtipo',
+        ));
+      }
 }

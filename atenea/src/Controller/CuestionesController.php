@@ -52,6 +52,30 @@ class CuestionesController extends AbstractController{
 
     }
     /**
+     * @Route("/cuestiones/internas/dafo/aspectos/{id}", name="list_aspectos_internos")
+     */
+    public function getAspectosInternos(Request $request){
+        $cId = $request->request->get('id');
+        $cuestion = $this->getDoctrine()->getRepository(Cuestiones::class)
+        ->find($cId);
+        $aspectos = $cuestion->getAspectos();
+        if($request->isXmlHttpRequest() || $request->query->get('showJson') == 1){
+            $jsonData = array();  
+            $idx = 0;
+            foreach($aspectos as $a){
+                $temp = array(
+                    'id'=>$a->getId(),
+                    'descripcion'=>$a->getDescripcion(),
+                    'favorable'=>$a->getFavorable(),
+                );
+                $jsonData[$idx++] = $temp;
+            }
+            return new JsonResponse($jsonData);
+        }else{
+            return $this->render('cuestiones/internas/dafo.html.twig');
+        }
+    }
+    /**
      * @Route("/cuestiones/internas/nuevo", name="cuestiones_internas_nuevo")
      */
 
@@ -147,12 +171,22 @@ class CuestionesController extends AbstractController{
      }
 
         /**
-         * @Route("/cuestiones/internas/dafo/list", name="cuestiones_dafo_list")
+         * @Route("/cuestiones/externas/dafo/list", name="cuestiones_externas_dafo_list")
          */
         public function listCuestionesExternas(){
             $usuario = $this->get('security.token_storage')->getToken()->getUser();
             $cuestiones = $this->getDoctrine()->getRepository(Cuestiones::Class)
             ->findByExternas();
+            return $this->render('cuestiones/externas/dafo.html.twig', ['cuestiones'=>$cuestiones]);
+        }
+        
+        /**
+         * @Route("/cuestiones/internas/dafo/list", name="cuestiones_internas_dafo_list")
+         */
+        public function listCuestionesInternas(){
+            $usuario = $this->get('security.token_storage')->getToken()->getUser();
+            $cuestiones = $this->getDoctrine()->getRepository(Cuestiones::Class)
+            ->findByInternas();
             return $this->render('cuestiones/internas/dafo.html.twig', ['cuestiones'=>$cuestiones]);
         } 
 }

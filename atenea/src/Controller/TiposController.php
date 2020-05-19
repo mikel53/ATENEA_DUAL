@@ -63,7 +63,8 @@ class TiposController extends AbstractController{
       * @Route("/tipos/edita/{id}" , name="tipos_edita")
       */
 
-      public function editTipo($id, Request $request){
+      public function editTipo(Request $request, $id){
+
         $tipo = $this->getDoctrine()->getRepository(Tipos::class)
         ->find($id);
 
@@ -80,7 +81,7 @@ class TiposController extends AbstractController{
         }
         return $this->render('tipos/tipo.html.twig', array(
             'form'=>$form->createView(),
-            'title'=>'Editar Tipo'
+            'title'=>'Editar Tipo',
         ));
       }
 }
