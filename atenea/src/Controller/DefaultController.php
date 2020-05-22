@@ -19,18 +19,12 @@ class DefaultController extends Controller
   }
 
   /**
-   * @Route("/menu", name="menu01")
+   * @Route("/menu01", name="menu01")
    */
   public function menu01()
   {
     return $this->render('menus/menu01.html.twig');
   }
-  /**
-   * @Route("/menu0", name="menu0")
-   */
-  public function menu0()
-  {
-    return $this->render('menus/menu0.html.twig');
-  }
+
 
 }

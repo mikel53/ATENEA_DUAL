@@ -128,7 +128,14 @@ class Usuarios implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        foreach ($roles as $rol) {
+          if ($rol == "Admin") {
+            $roles[] = 'ROLE_ADMIN';
+          }else {
+            $roles[] = 'ROLE_USER';
+
+          }
+        }
 
         return array_unique($roles);
     }
@@ -204,7 +211,6 @@ class Usuarios implements UserInterface
 
         return $this;
     }
-
 
 
     /**

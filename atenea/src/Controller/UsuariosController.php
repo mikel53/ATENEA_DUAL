@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Usuarios;
+use App\Entity\UsuarioRolGestion;
+
 use App\Form\UsuariosType;
+use App\Form\UsuarioRolGestionType;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,7 +93,7 @@ class UsuariosController extends AbstractController
                 'Nuevo Usuario: '.$usuarios->getNombre()
             );
 
-            return $this->redirectToRoute('usuarios_list');
+            return $this->redirectToRoute('usuarioRolGestion _new');
         }
 
         return $this->render('usuarios/usuarios.html.twig', array(

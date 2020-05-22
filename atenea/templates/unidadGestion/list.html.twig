@@ -50,27 +50,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for unidadGestion in unidadGestion %}
+                    {% for unidad in unidadGestion %}
                         <tr>
-                            <td>{{ unidadGestion.fechaAlta|date("m/d/Y") }}</td>
-                            <td>{{ unidadGestion.fechaBaja|date("m/d/Y") }}</td>
-                            <td>{{ unidadGestion.nombre }}</td>
-                            <td>{{ unidadGestion.cooEmEmpl }}</td>
-                            {% if unidadGestion.contratos %}
-                          <td>{{ unidadGestion.contratos.descripcion }}</td>
+                            <td>{{ unidad.fechaAlta|date("m/d/Y") }}</td>
+                            <td>{{ unidad.fechaBaja|date("m/d/Y") }}</td>
+                            <td>{{ unidad.nombre }}</td>
+                            <td>{{ unidad.cooEmEmpl }}</td>
+                            {% if unidad.contratos %}
+                          <td>{{ unidad.contratos.descripcion }}</td>
                           {% else %}
                             <td> null </td>
 
                         {% endif %}
-                              {% if unidadGestion.unidadGestion %}
-                            <td>{{ unidadGestion.unidadGestion.nombre }}</td>
+                              {% if unidad.unidadGestion %}
+                            <td>{{ unidad.unidadGestion.nombre }}</td>
                             {% else %}
                               <td> null </td>
 
                           {% endif %}
                           <td>
-                              <a class="btn btn-secondary btn-md" href="{{ path('unidadGestion_edit', {'id': unidadGestion.id}) }}">Editar</a>
-                              <a class="btn btn-danger btn-md" href="{{ path('unidadGestion_delete', {'id': unidadGestion.id}) }}">Eliminar</a>
+                              <a class="btn btn-secondary btn-md" href="{{ path('unidadGestion_edit', {'id': unidad.id}) }}">Editar</a>
+                              <a class="btn btn-danger btn-md" href="{{ path('unidadGestion_delete', {'id': unidad.id}) }}">Eliminar</a>
                           </td>
                         </tr>
                     {% else %}
@@ -84,7 +84,7 @@
             <form name="form" method="post" action="{{ path('unidadGestion_filtrar') }}">
                 <div id="form">
                     <div class="form-group">
-                        <select name="unindadGestionTipo">
+                        <select name="unidadGestionTipo">
                         <option value="todos">Todos</option>
                             <option value="Coo">Coorporacio</option>
                             <option value="Em">Empresa</option>
