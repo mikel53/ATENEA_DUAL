@@ -66,6 +66,8 @@ class UsuariosController extends AbstractController
     }
 
 
+
+
     /**
      * @Route("/usuarios/new", name="usuarios_new")
      */
@@ -80,9 +82,11 @@ class UsuariosController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
+
             $usuarios = $form->getData();
 
-
+            $usuarios->setPassword(crypt($usuarios->getPassword(), null));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($usuarios);
@@ -92,6 +96,9 @@ class UsuariosController extends AbstractController
                 'notice',
                 'Nuevo Usuario: '.$usuarios->getNombre()
             );
+
+
+
 
             return $this->redirectToRoute('usuarioRolGestion _new');
         }
@@ -161,5 +168,24 @@ class UsuariosController extends AbstractController
         );
 
         return $this->redirectToRoute('usuarios_list');
+    }
+
+    /**
+     * @Route("/usuarios/search", name="usuarios_search")
+     */
+    public function search(Request $request)
+    {
+        //recollim el paràmetre 'term' enviat per post
+        $term = $request->request->get('term');
+var_dump($term);
+        $usuarios = $this->getDoctrine()
+            ->getRepository(Usuarios::class)
+            ->findby(array('nombre'=> $term));
+var_dump($usuarios);
+
+        return $this->render('usuarios/list.html.twig', [
+            'usuarios' => $usuarios,
+            'searchTerm' => $term
+        ]);
     }
 }

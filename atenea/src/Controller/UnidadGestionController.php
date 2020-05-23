@@ -71,7 +71,7 @@ class UnidadGestionController extends AbstractController
      */
     public function list()
     {
-      
+
 
       $unidadGestion = $this->getDoctrine()
       ->getRepository(UnidadGestion::class)
@@ -328,11 +328,20 @@ $unidadGestion = $this->getDoctrine()
 ->getRepository(UnidadGestion::class)
 ->findBy(array('unidadGestion' => $ud));
 
+$unidadGestion2 =  array();
+
+foreach ($unidadGestion as $urg) {
+    $ud = $urg ->getNombre();
+    $unidadGestion2 = $this->getDoctrine()
+    ->getRepository(UnidadGestion::class)
+    ->findBy(array('unidadGestion' => $ud));
+}
 
 
 
 
-  return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion]);
+
+  return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion2]);
 
 
 }
