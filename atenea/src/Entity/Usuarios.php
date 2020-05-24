@@ -129,9 +129,15 @@ class Usuarios implements UserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         foreach ($roles as $rol) {
+
           if ($rol == "Admin") {
             $roles[] = 'ROLE_ADMIN';
-          }else {
+          };
+
+          if ($rol == "Super") {
+            $roles[] = 'ROLE_SUPER';
+          }
+          if ($rol == "User"){
             $roles[] = 'ROLE_USER';
 
           }

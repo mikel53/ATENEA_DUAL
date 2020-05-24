@@ -23,7 +23,7 @@ class UsuariosType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $roles = ['Admin', 'Super', 'User'];
+        $roles = ['Admin'=>'Admin', 'SuperUsuari' =>'Super', 'User'=>'User'];
         $builder
             ->add('Nombre', TextType::class)
             ->add('Apellidos', TextType::class)
