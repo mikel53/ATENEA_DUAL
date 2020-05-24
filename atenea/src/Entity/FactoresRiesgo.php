@@ -29,6 +29,11 @@ class FactoresRiesgo
     private $decha_baja;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nombre;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Aspectos", inversedBy="factoresRiesgos")
      */
     private $FactoresRiesgo_Aspectos;
@@ -66,6 +71,18 @@ class FactoresRiesgo
 
         return $this;
     }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): self
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }    
 
     /**
      * @return Collection|Aspectos[]

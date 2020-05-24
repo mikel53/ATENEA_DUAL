@@ -1,59 +1,82 @@
-
 <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
-  <a class="navbar-brand" href="{{ path('home') }}">Inici</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-     <span class="navbar-toggler-icon"></span>
-   </button>
+    <a class="navbar-brand" href="{{ path('home') }}">Inici</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <ul class="navbar-nav mr-auto">
-
-
-    {% if is_granted('ROLE_ADMIN') %}
-
-    <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Gestion de usuarios
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #e3f2fd;">
-            <a class="dropdown-item" href="{{ path('usuarios_list') }}">Usuarios</a>
-            <a class="dropdown-item" href="{{ path('contratos_list') }}">Contratos</a>
-
-            </div>
-    </li>
-    <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Gestion Administrativa
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #e3f2fd;">
-            <a class="dropdown-item" href="{{ path('unidadGestion_list') }}">Unidad Gestion</a>
-            <a class="dropdown-item" href="{{ path('usuarioRolGestion_list') }}">UsuarioRolGestion</a>
-
-            </div>
-    </li>
-    <li class="nav-item dropdown" >
-            <a class="nav-link dropdown-toggle"  id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Gestion Tecnica
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="background-color: #e3f2fd;">
-            <a class="dropdown-item">Dafo</a>
-            <a class="dropdown-item" href="{{ path('cuestiones_internas_list') }}">Cuestiones Internas</a>
-            <a class="dropdown-item" href="{{ path('cuestiones_externas_list') }}">Cuestiones externas</a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav mr-auto">
 
 
+            {% if is_granted('ROLE_ADMIN') %}
 
-            </div>
-    </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Gestion de usuarios
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #e3f2fd;">
+                        <a class="dropdown-item" href="{{ path('usuarios_list') }}">Usuarios</a>
+                        <a class="dropdown-item" href="{{ path('contratos_list') }}">Contratos</a>
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Gestion Administrativa
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #e3f2fd;">
+                        <a class="dropdown-item" href="{{ path('unidadGestion_list') }}">Unidad Gestion</a>
+                        <a class="dropdown-item" href="{{ path('usuarioRolGestion_list') }}">UsuarioRolGestion</a>
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Gestion Tecnica
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #e3f2fd;">
+                        <a class="dropdown-item">Dafo</a>
+                        <a class="dropdown-item" href="{{ path('cuestiones_internas_list') }}">Cuestiones Internas</a>
+                        <a class="dropdown-item" href="{{ path('cuestiones_externas_list') }}">Cuestiones externas</a>
 
 
-  {% endif %}
+                    </div>
+                </li>
 
-  {% if is_granted('ROLE_SUPER') %}
 
+            {% endif %}
+
+            {% if is_granted('ROLE_SUPER') %}
 
                 <li class="nav-item">
-                    <a class="nav-link">DAFO</a>
+                    <a class="nav-link" href="{{ path('unidadGestion_list') }}">Unidad Gestion</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('cuestiones_internas_list') }}">Lista Tipos / Subtipos / Cuestiones Internas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('cuestiones_externas_list') }}">Lista Tipos / Subtipos / Cuestiones Externas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("list_all_aspectos") }}">Aspectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("get_fce") }}">Factores Críticos de éxito</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("cuestiones_internas_dafo_list") }}">Lista Cuestiones Internas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("cuestiones_externas_dafo_list") }}">Lista Cuestiones Externas</a>
+                </li>
+
+
+            {% endif %}
+
+
+            {% if is_granted('ROLE_USER') %}
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('unidadGestion_list') }}">Unidad Gestion</a>
                 </li>
@@ -65,53 +88,34 @@
                 </li>
 
 
-        {% endif %}
-
-
-  {% if is_granted('ROLE_USER') %}
-
-
-                <li class="nav-item">
-                    <a class="nav-link">Dafo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('unidadGestion_list') }}">Unidad Gestion</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cuestiones_internas_list') }}">Cuestiones Internas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cuestiones_externas_list') }}">Cuestiones externas</a>
-                </li>
-
-
-        {% endif %}
-
+            {% endif %}
 
 
         </ul>
         {% if app.user %}
-        <div class="col-lg-1">
+            <div class="col-lg-1">
 
-        <a><img src="../public/uploads/imagenes/perso.png"></img></a>
-        </div>
+                <a>
+                    <img src="../public/uploads/imagenes/perso.png"></img>
+                </a>
+            </div>
 
-        <li class="nav-item dropdown pull-right" >
+            <li class="nav-item dropdown pull-right">
 
-                <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                  Usuario
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Usuario
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #e3f2fd;">
-                <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
-                <a class="dropdown-item" href="{{ path('usuarios_edit', {'id': app.user.id}) }}">Configuracio d'usuari</a>
+                    <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                    <a class="dropdown-item" href="{{ path('usuarios_edit', {'id': app.user.id}) }}">Configuracio d'usuari</a>
 
                 </div>
-        </li>
+            </li>
 
         {% else %}
-              <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+            <a class="nav-link" href="{{ path('app_login') }}">Login</a>
         {% endif %}
 
-  </div>
+    </div>
 </nav>
 <br>

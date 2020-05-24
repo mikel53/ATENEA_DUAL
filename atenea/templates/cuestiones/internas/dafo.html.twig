@@ -16,7 +16,7 @@
                 <div class="col-md-4"></div>
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <a class="btn btn-secondary btn-md" href="">Nuevo</a>
+                    <a id="nuevo" class="btn btn-secondary btn-md">Nuevo</a>
                     <a id="editar" class="btn btn-secondary btn-md">Editar</a>
                 </div>
             </div>
@@ -40,9 +40,6 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
-                        <tfooter>
-                            <a class="btn btn-secondary btn-md" href="{{ path('tipos_nuevo') }}">Nuevo</a>
-                        </tfooter>
                     </table>
                 </div>
                 <div class="col-md-4">
@@ -76,12 +73,13 @@
             $(document).ready(function () {
                 $(".cuestion").on("click", function (event) {
                     $('.debilidad').remove();
-                    $('.fortaleza').remove();                    
+                    $('.fortaleza').remove();
                     $('.cuestion').css("background-color", "");
                     ($(this)).css("background-color", "#bfbfbf");
                     var c = ($(this)).index();
                     var cid = $(".cuestion")[c];
                     cid = cid.children[0].innerText;
+
                     $.ajax({
                         url: 'aspectos/' + cid,
                         type: 'POST',
@@ -106,32 +104,24 @@
                                     $("#debilidades").append(e);
                                 }
                             }
-                            $(".fortaleza").add('.debilidad').on("click", function(event){
+                            event.stopImmediatePropagation();
+                            $("#nuevo").on("click", function (event) {
+                                window.location.replace('nuevo/' + cid);
+                            });
+                            $(".fortaleza").add('.debilidad').on("click", function (event) {
                                 $('.fortaleza').css("background-color", "");
                                 $('.debilidad').css("background-color", "");
                                 var c = ($(this)).index();
                                 var parent = ($(this)).parent();
-                                if($(parent).prev().hasClass("fortaleza")){
+                                if ($(parent).children(0).hasClass("fortaleza")) {
                                     var cid = $(".fortaleza")[c];
-                                }else{
+                                } else {
                                     var cid = $(".debilidad")[c];
-                                }
-                                cid = cid.children[0].innerText;
+                                } cid = cid.children[0].innerText;
                                 ($(this)).css("background-color", "#bfbfbf");
-                                $("#editar").on("click", function(event) {
-                                    $.ajax({
-                                        url: 'edita/' +  cid,
-                                        type: 'POST',
-                                        data: {id: cid},
-                                        dataType: 'html',
-                                        async: true,
-                                        success: function (data, status){
-                                            window.location.replace('edita/' +  cid);
-                                        },
-                                        error: function (xhr, textStatus, errorThrown){
-                                            alert('Ajax request failed');
-                                        }
-                                    });
+
+                                $("#editar").on("click", function (event) {
+                                    window.location.replace('edita/' + cid);
                                 });
                             });
                         },

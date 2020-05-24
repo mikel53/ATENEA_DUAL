@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}QSSMA
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="container">
+        <section class="bg-white text-black mb-0">
+            <div class="container">
+                <section class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4"></div>
+                </section>
+            </div>
+
+        </div>
+
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-success">
+                <strong>Success!</strong>
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="container">
+            <a class="btn btn-primary" href="{{path("get_fce")}}">Vuelve a la lista</a>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-2 bg-info text-center">
+                    <span class="text-white font-weight-bold">{{ factor.nombre }}</span>
+
+                </div>
+                <div class="col-md-2 bg-info text-center">
+                    <span class="text-white font-weight-bold">{{ factor.fechaAlta | date('d-m-Y') }}</span>
+
+                </div>
+                <div class="col-md-2 bg-info text-center">
+                    <span class="text-white font-weight-bold">{{ factor.dechaBaja | date('d-m-Y') }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <h3>Debilidades</h3>
+                    <table class="table">
+                        <thead class="bg-info text-white">
+                            <th>Nombre</th>
+                        </thead>
+                        <tbody>
+                            {% for a in aspectos %}
+                                {% if a.favorable == 0 and a.interno == 1 %}
+                                    <tr class="aspecto">
+                                        <td id="{{ a.id }}" class="text-dark">{{ a.descripcion }}</td>
+                                        <tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="col-md-6 text-center">
+                            <h3>Amenazas</h3>
+                            <table class="table">
+                                <thead class="bg-info text-white">
+                                    <th>Nombre</th>
+                                </thead>
+                                <tbody>
+                                    {% for a in aspectos %}
+                                        {% if a.favorable == 0 and a.interno == 0 %}
+                                            <tr class="aspecto">
+                                                <td id="{{ a.id }}" class="text-dark">{{ a.descripcion }}</td>
+                                                <tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="row justify-content-center">
+
+
+                                <div class="col-md-6 text-center">
+                                    <h3>Fortalezas</h3>
+
+
+                                    <table class="table">
+                                        <thead class="bg-info text-white">
+                                            <th>Nombre</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for a in aspectos %}
+                                                {% if a.favorable == 1 and a.interno == 1 %}
+                                                    <tr class="aspecto">
+                                                        <td id="{{ a.id }}" class="text-dark">{{ a.descripcion }}</td>
+                                                        <tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                        <div class="col-md-6 text-center">
+
+                                            <h3>Oportunidades</h3>
+                                            <table class="table">
+                                                <thead class="bg-info text-white">
+                                                    <th>Nombre</th>
+                                                </thead>
+                                                <tbody>
+                                                    {% for a in aspectos %}
+                                                        {% if a.favorable == 1 and a.interno == 0 %}
+                                                            <tr class="aspecto">
+                                                                <td id="{{ a.id }}" class="text-dark">{{ a.descripcion }}</td>
+                                                                <tr>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    {% endblock %}

@@ -13,18 +13,26 @@
                 <div class="col-md-4"></div>
             </section>
             <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <h1>Id i nom Tipus</h1>
-                    <table id="tipos" class="table table-striped">
+                    <a id="nuevo" class="btn btn-secondary btn-md">Nuevo</a>
+                    <a id="editar" class="btn btn-secondary btn-md">Editar</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h1>Cuestiones Externas</h1>
+                    <table id="cuestiones" class="table table-striped">
                         <thead>
-                            <th>Tipos Id</th>
-                            <th>Nombre Tipos</th>
+                            <th>Id</th>
+                            <th>Nombre</th>
                         </thead>
                         <tbody>
                             {% for c in cuestiones %}
-                                <tr class="tipo">
+                                <tr class="cuestion">
                                     <td>
-                                        {{c.id }}
+                                        {{ c.id }}
                                     </td>
                                     <td>
                                         {{ c.descripcion }}
@@ -32,12 +40,100 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
-                        <tfooter>
-                            <a class="btn btn-secondary btn-md" href="{{ path('tipos_nuevo') }}">Nuevo</a>
-                        </tfooter>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <h2>Oportunidades</h2>
+                    <table id="fortalezas" class="table table-striped">
+                        <thead>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+                <div class="col-md-4">
+                    <h2>Amenazas</h2>
+                    <table id="debilidades" class="table table-striped">
+                        <thead>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                        </thead>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-            {% endblock %}
+    {% endblock %}
+
+    {% block javascripts %}
+        <script>
+            $(document).ready(function () {
+
+                $(".cuestion").on("click", function (event) {
+                    var c = ($(this)).index();
+                    var cid = $(".cuestion")[c];
+                    cid = cid.children[0].innerText;
+                    $('.debilidad').remove();
+                    $('.fortaleza').remove();
+                    $('.cuestion').css("background-color", "");
+                    ($(this)).css("background-color", "#bfbfbf");
+
+                    $.ajax({
+                        url: 'aspectos/' + cid,
+                        type: 'POST',
+                        data: {
+                            id: cid
+                        },
+                        dataType: 'json',
+                        async: true,
+
+                        success: function (data, status) {
+                            for (i = 0; i < data.length; i ++) {
+                                var aspecto = data[i];
+                                if (aspecto["favorable"]) {
+                                    var e = $('<tr class="fortaleza"><td class="for_id"></td><td class="for_nombre"></td></tr>');
+                                    $(".for_id", e).html(aspecto["id"]);
+                                    $(".for_nombre", e).html(aspecto["descripcion"]);
+                                    $("#fortalezas").append(e);
+                                } else {
+                                    var e = $('<tr class="debilidad"><td class="deb_id"></td><td class="deb_nombre"></td></tr>');
+                                    $(".deb_id", e).html(aspecto["id"]);
+                                    $(".deb_nombre", e).html(aspecto["descripcion"]);
+                                    $("#debilidades").append(e);
+                                }
+                            }
+                            event.stopImmediatePropagation();
+                            $("#nuevo").on("click", function (event) {
+                                window.location.replace('nuevo/' + cid);
+                            });
+                            $(".fortaleza").add('.debilidad').on("click", function (event) {
+                                $('.fortaleza').css("background-color", "");
+                                $('.debilidad').css("background-color", "");
+                                var c = ($(this)).index();
+                                var parent = ($(this)).parent();
+                                if ($(parent).children(0).hasClass("fortaleza")) {
+                                    var aid = $(".fortaleza")[c];
+                                } else {
+                                    var aid = $(".debilidad")[c];
+                                }
+                                aid = aid.children[0].innerText;
+                                ($(this)).css("background-color", "#bfbfbf");
+
+                                $("#editar").on("click", function (event) {
+                                    window.location.replace('edita/' + aid);
+                                });
+                            });
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert('Ajax request failed.');
+                        }
+                    });
+                });
+
+
+            });
+        </script>
+    {% endblock %}

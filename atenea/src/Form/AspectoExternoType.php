@@ -16,18 +16,14 @@ use App\Entity\Subtipos;
 use App\Entity\Cuestiones;
 use App\Repository\CuestionesRepository;
 
-class AspectoType extends AbstractType
+class AspectoExternoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
-        ->add('Aspecto_cuestiones', EntityType::class, [
-            'class'=>Cuestiones::class,
-            'query_builder'=>function(CuestionesRepository $cr){
-                return $cr->findByInternasForm();
-            },
-            'choice_label'=>'descripcion'
-        ])
+        ->add('favorable', ChoiceType::class, array('choices'=>array('Amenaza'=>'0', 'Oportunidad'=>'1')))
+        ->add('interno', ChoiceType::class, array('choices'=>array('0'=>'Externo')))
         ->add('descripcion', TextType::class)
         ->add('save', SubmitType::class, array('label' => $options['submit']))
         ;
@@ -38,6 +34,7 @@ class AspectoType extends AbstractType
         $resolver->setDefaults([
             // Configure your form options here
             'submit' => 'Enviar',
+            'cuestion' =>Cuestiones::class,
         ]);
     }
 

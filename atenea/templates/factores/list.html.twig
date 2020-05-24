@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}QSSMA
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="container">
+        <section class="bg-white text-black mb-0">
+            <div class="container">
+                <section class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4"></div>
+                </section>
+
+
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-success">
+                        <strong>Success!</strong>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <h3>Debilidades</h3>
+                        <table class="table">
+                            <thead class="bg-info text-white">
+                                <th>Nombre</th>
+                            </thead>
+                            <tbody>
+                                {% for a in aspectos %}
+                                    {% if a.favorable == 0 and a.interno == 1 %}
+                                        <tr class="aspecto">
+                                            <td id="{{ a.id }}" class="text-dark">{{ a.descripcion }}</td>
+                                            <tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-6 text-center">
+                                <h3>Amenazas</h3>
+                                <table class="table">
+                                    <thead class="bg-info text-white">
+                                        <th>Nombre</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for a in aspectos %}
+                                            {% if a.favorable == 0 and a.interno == 0 %}
+                                                <tr class="aspecto">
+                                                    <td id="{{ a.id }}" class="text-dark">{{ a.descripcion }}</td>
+                                                    <tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 text-center">
+                                        <h3>Fortalezas</h3>
+
+
+                                        <table class="table">
+                                            <thead class="bg-info text-white">
+                                                <th>Nombre</th>
+                                            </thead>
+                                            <tbody>
+                                                {% for a in aspectos %}
+                                                    {% if a.favorable == 1 and a.interno == 1 %}
+                                                        <tr class="aspecto">
+                                                            <td id="{{ a.id }}" class="text-dark">{{ a.descripcion }}</td>
+                                                            <tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                            <div class="col-md-6 text-center">
+
+                                                <h3>Oportunidades</h3>
+                                                <table class="table">
+                                                    <thead class="bg-info text-white">
+                                                        <th>Nombre</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for a in aspectos %}
+                                                            {% if a.favorable == 1 and a.interno == 0 %}
+                                                                <tr class="aspecto">
+                                                                    <td id="{{ a.id }}" class="text-dark">{{ a.descripcion }}</td>
+                                                                    <tr>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 text-center">
+                                                    <h3>Llista de potencials FCE</h3>
+                                                    <table class="table">
+                                                        <thead class="bg-info text-white">
+                                                            <th>Nombre</th>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    <a id="guardar" class="btn btn-info text-white">Gravar Potencial FCE</a>
+                                                </div>
+                                            </div>
+
+                                        {% endblock %}
+
+                                        {% block javascripts %}
+                                            <script>
+                                                var aspectos = [];
+                                                $(".aspecto").on("click", function (event) {
+                                                    $(this).css("background-color", "#bfbfbf");
+                                                    var aid = $(this);
+                                                    aspectos.push(aid[0].firstElementChild.id);
+                                                    $("#guardar").on("click", function (event) {
+                                                        JSON.stringify(aspectos);
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            dataType: 'text',
+                                                            data:
+                                                                {arr: aspectos}
+                                                            ,
+                                                            url: 'json',
+                                                            success: function (data) {
+                                                                window.location.replace('add/' + data);
+                                                            },
+                                                            error(msg) {
+                                                                alert(msg);
+                                                                //window.location.replace('add');
+                                                            }
+                                                        });
+                                                        // console.log(aspectos);
+                                                    });
+                                                });
+                                            </script>
+
+                                        {% endblock %}

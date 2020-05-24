@@ -76,6 +76,32 @@ class CuestionesController extends AbstractController{
         }
     }
     /**
+     * @Route("/cuestiones/externas/dafo/aspectos/{id}", name="list_aspectos_externos")
+     */
+    public function getAspectosExternos(Request $request){
+        $cId = $request->request->get('id');
+        $cuestion = $this->getDoctrine()->getRepository(Cuestiones::class)
+        ->find($cId);
+        $aspectos = $cuestion->getAspectos();
+        if($request->isXmlHttpRequest() || $request->query->get('showJson') == 1){
+            $jsonData = array();  
+            $idx = 0;
+            foreach($aspectos as $a){
+                $temp = array(
+                    'id'=>$a->getId(),
+                    'descripcion'=>$a->getDescripcion(),
+                    'favorable'=>$a->getFavorable(),
+                );
+                $jsonData[$idx++] = $temp;
+            }
+            return new JsonResponse($jsonData);
+        }else{
+            return $this->render('cuestiones/externas/dafo.html.twig');
+        }
+    }
+
+
+    /**
      * @Route("/cuestiones/internas/nuevo", name="cuestiones_internas_nuevo")
      */
 
