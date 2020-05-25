@@ -7,6 +7,9 @@
 {% block body %}
     <section class="bg-white text-black mb-0">
         <div class="container">
+        <div class="btn-group float-right mt-2" role="group">
+            <a class="btn btn-primary btn-md" href="{{ path('menu0') }}">&laquo; Volver</a>
+        </div>
             <section class="row">
                 <div class="col-md-8"></div>
                 <div class="col-md-4"></div>
@@ -30,10 +33,9 @@
                         <tbody>
                             {% for t in tipos %}
                                 <tr class="tipo">
+
                                     <td>
                                         {{ t.id }}
-                                    </td>
-                                    <td>
                                         {{ t.descripcion }}
                                     </td>
                                 </tr>

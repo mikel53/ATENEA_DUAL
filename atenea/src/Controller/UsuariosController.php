@@ -119,14 +119,26 @@ class UsuariosController extends AbstractController
            ->getRepository(Usuarios::class)
            ->find($id);
 
+           $password0 = $usuarios->getPassword();
+
        //podem personalitzar el text del botó passant una opció 'submit' al builder de la classe jugadorType
        $form = $this->createForm(UsuariosType::class, $usuarios, array('submit'=>'Desar'));
 
        $form->handleRequest($request);
 
        if ($form->isSubmitted() && $form->isValid()) {
+         $usuarios = $form->getData();
 
            $entityManager = $this->getDoctrine()->getManager();
+
+        //  if ($usuarios->getPassword() == null){
+        if(empty($usuarios->getPassword)){
+          $usuarios->setPassword($password0);
+
+          } else {
+            $usuarios->setPassword(crypt($usuarios->getPassword(), null));
+
+          }
            $entityManager->persist($usuarios);
            $entityManager->flush();
 
@@ -177,7 +189,6 @@ class UsuariosController extends AbstractController
     {
         //recollim el paràmetre 'term' enviat per post
         $term = $request->request->get('term');
-var_dump($term);
         $usuarios = $this->getDoctrine()
             ->getRepository(Usuarios::class)
             ->findby(array('nombre'=> $term));

@@ -10,7 +10,15 @@
                 </div>
                 <div class="col-md-4">
                     <div class="btn-group float-right mt-2" role="group">
+										{% if is_granted('ROLE_ADMIN') %}
+
                         <a class="btn btn-primary btn-md" href="{{ path('usuarios_list') }}">&laquo; Volver</a>
+											{% endif %}
+											{% if is_granted('ROLE_SUPER') %}
+
+	                        <a class="btn btn-primary btn-md" href="{{ path('usuarios_list') }}">&laquo; Volver</a>
+												{% endif %}
+
                     </div>
                 </div>
             </section>

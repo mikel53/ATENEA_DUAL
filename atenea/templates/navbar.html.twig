@@ -35,9 +35,13 @@
                         Gestion Tecnica
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #e3f2fd;">
-                        <a class="dropdown-item">Dafo</a>
+
+                        <a class="dropdown-item" href="{{ path("list_all_aspectos") }}">DAFO</a>
                         <a class="dropdown-item" href="{{ path('cuestiones_internas_list') }}">Cuestiones Internas</a>
                         <a class="dropdown-item" href="{{ path('cuestiones_externas_list') }}">Cuestiones externas</a>
+                        <a class="dropdown-item" href="{{ path("cuestiones_internas_dafo_list") }}">Lista Internas</a>
+                        <a class="dropdown-item" href="{{ path("cuestiones_externas_dafo_list") }}">Lista Externas</a>
+
 
 
                     </div>
@@ -48,26 +52,13 @@
 
             {% if is_granted('ROLE_SUPER') %}
 
+            <li class="nav-item">
+            <a class="nav-link" href="{{ path('usuarios_list') }}">Usuarios</a>
+            </li>
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('unidadGestion_list') }}">Unidad Gestion</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cuestiones_internas_list') }}">Lista Tipos / Subtipos / Cuestiones Internas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cuestiones_externas_list') }}">Lista Tipos / Subtipos / Cuestiones Externas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path("list_all_aspectos") }}">Aspectos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path("get_fce") }}">Factores Críticos de éxito</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path("cuestiones_internas_dafo_list") }}">Lista Cuestiones Internas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path("cuestiones_externas_dafo_list") }}">Lista Cuestiones Externas</a>
                 </li>
 
 
@@ -80,13 +71,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('unidadGestion_list') }}">Unidad Gestion</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cuestiones_internas_list') }}">Cuestiones Internas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cuestiones_externas_list') }}">Cuestiones externas</a>
-                </li>
-
 
             {% endif %}
 
@@ -96,7 +80,9 @@
             <div class="col-lg-1">
 
                 <a>
-                    <img src="../public/uploads/imagenes/perso.png"></img>
+                <img class="img-fluid mb-5 d-block" src="{{ absolute_url(asset ('uploads/imagenes/login.png')) }}"  style="height:15px; margin:0;"alt="">
+                    <p> {{app.user.userName}}</p>
+
                 </a>
             </div>
 

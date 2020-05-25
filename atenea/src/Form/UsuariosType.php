@@ -34,6 +34,7 @@ class UsuariosType extends AbstractType
 
             ->add('Password', RepeatedType::class, [
                   'type' => TextType::class,
+                  'required' => false,
                   'first_options'  => ['label' => 'Password'],
                   'second_options' => ['label' => 'Repeat Password'],
             ])

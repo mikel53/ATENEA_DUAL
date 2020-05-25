@@ -51,7 +51,7 @@ class Usuarios implements UserInterface
     private $fecha_baja;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable = true)
      */
     private $password;
 

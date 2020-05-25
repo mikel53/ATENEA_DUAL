@@ -9,10 +9,19 @@
                     <h1>Lista de Unindades de gestion</h1>
                 </div>
                 <div class="col-md-4">
+                {% if is_granted('ROLE_ADMIN') %}
 
                     <div class="btn-group float-right mt-2" role="group">
                      <a class="btn btn-primary btn-md" href="{{ path('unidadGestion_new') }}">+ Nueva unindadGestion</a>
                     </div>
+                  {% endif %}
+                  {% if is_granted('ROLE_SUPER') %}
+
+                      <div class="btn-group float-right mt-2" role="group">
+                       <a class="btn btn-primary btn-md" href="{{ path('unidadGestion_new') }}">+ Nueva unindadGestion</a>
+                      </div>
+                    {% endif %}
+
 
                 </div>
             </section>
@@ -69,8 +78,15 @@
 
                           {% endif %}
                           <td>
+                          {% if is_granted('ROLE_ADMIN') %}
+
                               <a class="btn btn-secondary btn-md" href="{{ path('unidadGestion_edit', {'id': unidad.id}) }}">Editar</a>
                               <a class="btn btn-danger btn-md" href="{{ path('unidadGestion_delete', {'id': unidad.id}) }}">Eliminar</a>
+
+                            {% endif %}
+
+                              <a class="btn btn-secondary btn-md" href="{{ path('unidadGestion_DAFO', {'id': unidad.id}) }}">Select</a>
+
                           </td>
                         </tr>
                     {% else %}
@@ -80,6 +96,8 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            {% if is_granted('ROLE_ADMIN') %}
 
             <form name="form" method="post" action="{{ path('unidadGestion_filtrar') }}">
                 <div id="form">
@@ -97,6 +115,7 @@
             </form>
 
         </div>
+      {% endif %}
 
         </div>
 

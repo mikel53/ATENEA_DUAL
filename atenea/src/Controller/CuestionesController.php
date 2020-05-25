@@ -34,21 +34,21 @@ class CuestionesController extends AbstractController{
         $subId = $request->request->get('id');
         $cuestiones = $this->getDoctrine()->getRepository(Cuestiones::Class)
         ->findBySubTipo($subId);
-        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
-            $jsonData = array();  
+        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
+            $jsonData = array();
             $idx = 0;
-            
-            foreach($cuestiones as $c) {  
+
+            foreach($cuestiones as $c) {
                 $temp = array(
-                   'id' => $c->getId(),  
-                   'descripcion'=>$c->getDescripcion()  
-                );   
-                $jsonData[$idx++] = $temp;  
-             } 
-            return new JsonResponse($jsonData); 
-         } else { 
-            return $this->render('cuestiones/internas/list.html.twig'); 
-         } 
+                   'id' => $c->getId(),
+                   'descripcion'=>$c->getDescripcion()
+                );
+                $jsonData[$idx++] = $temp;
+             }
+            return new JsonResponse($jsonData);
+         } else {
+            return $this->render('cuestiones/internas/list.html.twig');
+         }
 
     }
     /**
@@ -60,7 +60,7 @@ class CuestionesController extends AbstractController{
         ->find($cId);
         $aspectos = $cuestion->getAspectos();
         if($request->isXmlHttpRequest() || $request->query->get('showJson') == 1){
-            $jsonData = array();  
+            $jsonData = array();
             $idx = 0;
             foreach($aspectos as $a){
                 $temp = array(
@@ -84,7 +84,7 @@ class CuestionesController extends AbstractController{
         ->find($cId);
         $aspectos = $cuestion->getAspectos();
         if($request->isXmlHttpRequest() || $request->query->get('showJson') == 1){
-            $jsonData = array();  
+            $jsonData = array();
             $idx = 0;
             foreach($aspectos as $a){
                 $temp = array(
@@ -171,7 +171,7 @@ class CuestionesController extends AbstractController{
         ));
      }
 
-        /**
+      /**
       * @Route("/cuestiones/externas/edita/{id<\d+>}", name="cuestiones_internas_edita")
       */
       public function editCuestionExterna($id, Request $request){
@@ -205,7 +205,7 @@ class CuestionesController extends AbstractController{
             ->findByExternas();
             return $this->render('cuestiones/externas/dafo.html.twig', ['cuestiones'=>$cuestiones]);
         }
-        
+
         /**
          * @Route("/cuestiones/internas/dafo/list", name="cuestiones_internas_dafo_list")
          */
@@ -214,7 +214,7 @@ class CuestionesController extends AbstractController{
             $cuestiones = $this->getDoctrine()->getRepository(Cuestiones::Class)
             ->findByInternas();
             return $this->render('cuestiones/internas/dafo.html.twig', ['cuestiones'=>$cuestiones]);
-        } 
+        }
 }
 
 

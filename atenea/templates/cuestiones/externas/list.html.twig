@@ -37,6 +37,8 @@
                         </tbody>
                         <tfooter>
                             <a class="btn btn-secondary btn-md" href="{{ path('tipos_nuevo') }}">Nuevo</a>
+                            <a id="tEdit" class="btn btn-secondary btn-md">Editar</a>
+
                         </tfooter>
                     </table>
                 </div>
@@ -45,7 +47,7 @@
                     <table id="subtipus" class="table table-striped">
                         <thead>
                             <th>Id</th>
-                            <th>Subtipos</th>   
+                            <th>Subtipos</th>
                         </thead>
                         <tbody>
 
@@ -126,7 +128,7 @@
                                 $('#cuestion_id', e).html(cuestion["id"]);
                                 $('#cuestion_nom',e).html(cuestion["descripcion"]);
                                 $('#cuestion').append(e);
-                            }                                    
+                            }
                                     console.log(data);
                                 },
                                 error: function (xhr, textStatus, errorThrown) {
@@ -135,16 +137,16 @@
                             });
                         });
                     },
-                    error : function(xhr, textStatus, errorThrown) {  
-                        alert('Ajax request failed.');  
-                    }                 
+                    error : function(xhr, textStatus, errorThrown) {
+                        alert('Ajax request failed.');
+                    }
                });
 
             });
-            
-            
-        }); 
-    
+
+
+        });
+
     </script>
- 
+
 {% endblock %}

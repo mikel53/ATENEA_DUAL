@@ -6,12 +6,16 @@
         <div class="container">
             <section class="row">
                 <div class="col-md-8">
-                    <h1>Lista de Usuarios</h1>
+                    <h1>Lista de Contratos</h1>
                 </div>
                 <div class="col-md-4">
 
                     <div class="btn-group float-right mt-2" role="group">
+                    {% if is_granted('ROLE_ADMIN') %}
+
                         <a class="btn btn-primary btn-md" href="{{ path('contratos_new') }}">+ Nuevo Contratos</a>
+                      {% endif %}
+
                     </div>
 
                 </div>
@@ -55,7 +59,11 @@
                             <td>{{ contratos.descripcion }}</td>
 
                             <td>
+                            {% if is_granted('ROLE_ADMIN') %}
+
                                 <a class="btn btn-secondary btn-md" href="{{ path('contratos_edit', {'id': contratos.id}) }}">Editar</a>
+                              {% endif %}
+
                             </td>
 
                         </tr>

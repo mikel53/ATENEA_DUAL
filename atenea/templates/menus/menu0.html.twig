@@ -7,15 +7,20 @@
     <!-- About Section -->
     <section class="bg-white text-black mb-0">
         <div class="container">
+        {% if unidadGestion is defined %}
+
+        <h1 class="text-black">{{unidadGestion.nombre}}</h2>
+
+
             <h2 class="text-black">Atenea mennu</h2>
                 <div class="row">
                         <div class="col-lg-3 col-center">
-                        <a class="btn btn-primary btn-md" href="{{ path('cuestiones_externas_list') }}"> Gestion cuestiones externas</a>
-                        <a class="btn btn-primary btn-md" href="{{ path('cuestiones_internas_list') }}"> Gestion cuestiones internas</a>
+                        <a class="btn btn-primary btn-md" href="{{ path('cuestiones_externas_list' , {'id': unidadGestion.id}) }}"> Gestion cuestiones externas</a>
+                        <a class="btn btn-primary btn-md" href="{{ path('cuestiones_internas_list',{'id': unidadGestion.id}) }}"> Gestion cuestiones internas</a>
                         <a class="btn btn-primary btn-md" > Gestion partes interesadas</a>
-                        <a class="btn btn-primary btn-md" > Gestion aspectos favorables y desfaborables E</a>
-                        <a class="btn btn-primary btn-md" > Gestion aspectos favorables y desfaborables I</a>
-                        <a class="btn btn-primary btn-md" >DAFO</a>
+                        <a class="btn btn-primary btn-md" href="{{ path("cuestiones_externas_dafo_list") }}" > Gestion aspectos favorables y desfaborables E</a>
+                        <a class="btn btn-primary btn-md" href="{{ path("cuestiones_internas_dafo_list") }}" > Gestion aspectos favorables y desfaborables I</a>
+                        <a class="btn btn-primary btn-md" href="{{ path("list_all_aspectos") }}" >DAFO</a>
 ¡
                         </div>
                         <div class="col-lg-12">
@@ -23,8 +28,15 @@
 
 
                         </div>
-                </div>
 
+
+
+                </div>
+                {% else %}
+
+                  <h2 class="text-black">NO esta assignado</h2>
+
+                {% endif %}
             <hr class="star-light mb-5">
         </div>
     </section>

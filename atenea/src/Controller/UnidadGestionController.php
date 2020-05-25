@@ -84,6 +84,9 @@ class UnidadGestionController extends AbstractController
         return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion]);
     }
 
+
+
+
     /**
      * @Route("/unidadGestion/new", name="unidadGestion_new")
      */
@@ -137,6 +140,18 @@ var_dump($poblacions);
             'title' => 'Nueva Unidad',
 
         ));
+    }
+
+    /**
+     * @Route("/menu0/{id<\d+>}", name="unidadGestion_DAFO")
+     */
+    public function iniciDAFO($id, Request $request)
+    {
+      $unidadGestion = $this->getDoctrine()
+          ->getRepository(UnidadGestion::class)
+          ->find($id);
+
+        return $this->render('menus/menu0.html.twig', ['unidadGestion' => $unidadGestion]);
     }
 
     /**
@@ -230,28 +245,32 @@ var_dump($poblacions);
 }
 
 /**
-* @Route("/unidadGestion/coo", name="unidadGestion_coo")
+* @Route("/unidadGestion/coo", name="unidadGestionlist?id=1_coo")
 */
 public function filtrarCoo(Request $request)
 {
 //recollim el paràmetre 'equipoLiga' enviat per post
 //$term = $_POST{'unidadGestionTipo'};
 
+$user = $this->getUser();
+
 
 $userRolGes = $this->getDoctrine()
     ->getRepository(UsuarioRolGestion::class)
-    ->findAll();
+    ->findBy(array('usuarios' => $user));
 
-$user = $this->getUser();
 
 
 
 foreach ($userRolGes as $urg) {
   if ($urg->getUsuarios() == $user) {
     $ud = $urg ->getUnidadGestion();
+    if ($ud->getCooEmEmpl() == 'Coo') {
+    $udnom[] = $ud-> getNombre();
   }
+  }
+
 }
-$udnom = $ud-> getNombre();
 
 $unidadGestion = $this->getDoctrine()
 ->getRepository(UnidadGestion::class)
@@ -274,29 +293,35 @@ public function filtrarEm(Request $request)
 //recollim el paràmetre 'equipoLiga' enviat per post
 //$term = $_POST{'unidadGestionTipo'};
 
+$user = $this->getUser();
+
 
 $userRolGes = $this->getDoctrine()
     ->getRepository(UsuarioRolGestion::class)
-    ->findAll();
+    ->findBy(array('usuarios' => $user));
 
-$user = $this->getUser();
 
 
 
 foreach ($userRolGes as $urg) {
   if ($urg->getUsuarios() == $user) {
     $ud = $urg ->getUnidadGestion();
+    if ($ud->getCooEmEmpl() == 'Em') {
+    $udnom[] = $ud-> getNombre();
   }
+  }
+
 }
 
 $unidadGestion = $this->getDoctrine()
 ->getRepository(UnidadGestion::class)
-->findBy(array('unidadGestion' => $ud));
+->findBy(array('nombre' => $udnom));
+
+
 
 
 
   return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion]);
-
 
 }
 
@@ -309,40 +334,35 @@ public function filtrarEmpl(Request $request)
 //recollim el paràmetre 'equipoLiga' enviat per post
 //$term = $_POST{'unidadGestionTipo'};
 
+$user = $this->getUser();
+
 
 $userRolGes = $this->getDoctrine()
     ->getRepository(UsuarioRolGestion::class)
-    ->findAll();
+    ->findBy(array('usuarios' => $user));
 
-$user = $this->getUser();
 
 
 
 foreach ($userRolGes as $urg) {
   if ($urg->getUsuarios() == $user) {
     $ud = $urg ->getUnidadGestion();
+    if ($ud->getCooEmEmpl() == 'Empl') {
+    $udnom[] = $ud-> getNombre();
   }
+  }
+
 }
 
 $unidadGestion = $this->getDoctrine()
 ->getRepository(UnidadGestion::class)
-->findBy(array('unidadGestion' => $ud));
-
-$unidadGestion2 =  array();
-
-foreach ($unidadGestion as $urg) {
-    $ud = $urg ->getNombre();
-    $unidadGestion2 = $this->getDoctrine()
-    ->getRepository(UnidadGestion::class)
-    ->findBy(array('unidadGestion' => $ud));
-}
+->findBy(array('nombre' => $udnom));
 
 
 
 
 
-  return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion2]);
-
+  return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion]);
 
 }
 }

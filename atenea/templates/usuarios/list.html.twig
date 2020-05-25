@@ -11,7 +11,15 @@
                 <div class="col-md-4">
 
                     <div class="btn-group float-right mt-2" role="group">
+                    {% if is_granted('ROLE_ADMIN') %}
+
                         <a class="btn btn-primary btn-md" href="{{ path('usuarios_new') }}">+ Nuevo Usuario</a>
+                      {% endif %}
+                      {% if is_granted('ROLE_SUPER') %}
+
+                          <a class="btn btn-primary btn-md" href="{{ path('usuarios_new') }}">+ Nuevo Usuario</a>
+                        {% endif %}
+
                     </div>
 
                 </div>
@@ -59,8 +67,16 @@
                             <td>{{ usuarios.fechaBaja|date("m/d/Y") }}</td>
 
                             <td>
+                            {% if is_granted('ROLE_ADMIN') %}
+
                                 <a class="btn btn-secondary btn-md" href="{{ path('usuarios_edit', {'id': usuarios.id}) }}">Editar</a>
                                 <a class="btn btn-danger btn-md" href="{{ path('usuarios_delete', {'id': usuarios.id}) }}">Eliminar</a>
+                          {% endif %}
+                          {% if is_granted('ROLE_SUPER') %}
+
+                              <a class="btn btn-secondary btn-md" href="{{ path('usuarios_edit', {'id': usuarios.id}) }}">Editar</a>
+                              <a class="btn btn-danger btn-md" href="{{ path('usuarios_delete', {'id': usuarios.id}) }}">Eliminar</a>
+                          {% endif %}
                             </td>
 
                         </tr>
