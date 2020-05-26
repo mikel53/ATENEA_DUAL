@@ -44,7 +44,7 @@
             {% endfor %}
 
             <table class="table table-striped">
-                <thead>
+                <thead class="table-info ">
                     <tr>
                         <th>Fecha Alta</th>
                         <th>Fecha Baja</th>
@@ -52,6 +52,8 @@
                         <th>Entidad</th>
                         <th>Contratos</th>
                         <th>UnidadGestion</th>
+                        <th>Acciones</th>
+
 
 
 
@@ -68,13 +70,13 @@
                             {% if unidad.contratos %}
                           <td>{{ unidad.contratos.descripcion }}</td>
                           {% else %}
-                            <td> null </td>
+                            <td>  </td>
 
                         {% endif %}
                               {% if unidad.unidadGestion %}
                             <td>{{ unidad.unidadGestion.nombre }}</td>
                             {% else %}
-                              <td> null </td>
+                              <td>  </td>
 
                           {% endif %}
                           <td>

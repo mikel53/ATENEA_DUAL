@@ -284,7 +284,45 @@ $unidadGestion = $this->getDoctrine()
 
 
 }
+/**
+* @Route("/unidadGestion/Coo", name="unidadGestion_coo")
+*/
+public function filtrarCo(Request $request)
+{
+//recollim el paràmetre 'equipoLiga' enviat per post
+//$term = $_POST{'unidadGestionTipo'};
 
+$user = $this->getUser();
+
+
+$userRolGes = $this->getDoctrine()
+    ->getRepository(UsuarioRolGestion::class)
+    ->findBy(array('usuarios' => $user));
+
+
+
+
+foreach ($userRolGes as $urg) {
+  if ($urg->getUsuarios() == $user) {
+    $ud = $urg ->getUnidadGestion();
+    if ($ud->getCooEmEmpl() == 'Coo') {
+    $udnom[] = $ud-> getNombre();
+  }
+  }
+
+}
+
+$unidadGestion = $this->getDoctrine()
+->getRepository(UnidadGestion::class)
+->findBy(array('nombre' => $udnom));
+
+
+
+
+
+  return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion]);
+
+}
 /**
 * @Route("/unidadGestion/em", name="unidadGestion_em")
 */
@@ -365,4 +403,44 @@ $unidadGestion = $this->getDoctrine()
   return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion]);
 
 }
+
+/**
+* @Route("/unidadGestion/usuari", name="unidadGestion_usuari")
+*/
+public function filtrarUsuari(Request $request)
+{
+//recollim el paràmetre 'equipoLiga' enviat per post
+//$term = $_POST{'unidadGestionTipo'};
+
+$user = $this->getUser();
+
+
+$userRolGes = $this->getDoctrine()
+    ->getRepository(UsuarioRolGestion::class)
+    ->findBy(array('usuarios' => $user));
+
+
+
+
+foreach ($userRolGes as $urg) {
+  if ($urg->getUsuarios() == $user) {
+    $ud = $urg ->getUnidadGestion();
+    $udnom[] = $ud-> getNombre();
+  
+  }
+
+}
+
+$unidadGestion = $this->getDoctrine()
+->getRepository(UnidadGestion::class)
+->findBy(array('nombre' => $udnom));
+
+
+
+
+
+  return $this->render('unidadGestion/list.html.twig', ['unidadGestion' => $unidadGestion]);
+
+}
+
 }

@@ -30,6 +30,7 @@
 
                     </div>
                 </li>
+<!--
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Gestion Tecnica
@@ -46,7 +47,7 @@
 
                     </div>
                 </li>
-
+-->
 
             {% endif %}
 
@@ -69,7 +70,7 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('unidadGestion_list') }}">Unidad Gestion</a>
+                    <a class="nav-link" href="{{ path('unidadGestion_usuari') }}">Unidad Gestion</a>
                 </li>
 
             {% endif %}
@@ -77,19 +78,19 @@
 
         </ul>
         {% if app.user %}
+<!--
         <div class="col-lg-1">
-          
-            <img class="img-fluid mb-5 d-block" src="{{ absolute_url(asset ('uploads/imagenes/login.png')) }}"  style="height:15px; margin-bottom: :0;"alt="">
-
+            <a class="navbar-brand" href="#">
+               <img src="{{ absolute_url(asset ('uploads/imagenes/login.png')) }}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+               {{app.user.userName}}
+             </a>
         </div>
-            <div class="col-lg-1">
-                    <p> {{app.user.userName}}</p>
-            </div>
-
-            <li class="nav-item dropdown pull-right">
+-->
+            <li class="nav-item dropdown pull-right" style="margin-right: 50px;list-style:none;">
 
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Usuario
+                <img src="{{ absolute_url(asset ('uploads/imagenes/login.png')) }}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+                {{app.user.userName}}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #e3f2fd;">
                     <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>

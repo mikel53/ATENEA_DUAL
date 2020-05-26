@@ -192,7 +192,6 @@ class UsuariosController extends AbstractController
         $usuarios = $this->getDoctrine()
             ->getRepository(Usuarios::class)
             ->findby(array('nombre'=> $term));
-var_dump($usuarios);
 
         return $this->render('usuarios/list.html.twig', [
             'usuarios' => $usuarios,
