@@ -77,13 +77,13 @@
 
         </ul>
         {% if app.user %}
+        <div class="col-lg-1">
+          
+            <img class="img-fluid mb-5 d-block" src="{{ absolute_url(asset ('uploads/imagenes/login.png')) }}"  style="height:15px; margin-bottom: :0;"alt="">
+
+        </div>
             <div class="col-lg-1">
-
-                <a>
-                <img class="img-fluid mb-5 d-block" src="{{ absolute_url(asset ('uploads/imagenes/login.png')) }}"  style="height:15px; margin:0;"alt="">
                     <p> {{app.user.userName}}</p>
-
-                </a>
             </div>
 
             <li class="nav-item dropdown pull-right">
