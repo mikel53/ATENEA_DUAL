@@ -17,7 +17,7 @@
 
                         <a class="btn btn-primary btn-md btn-block" href="{{ path('cuestiones_externas_list' , {'id': unidadGestion.id}) }}"> Gestion cuestiones externas</a>
                         <a class="btn btn-primary btn-md btn-block" href="{{ path('cuestiones_internas_list',{'id': unidadGestion.id}) }}"> Gestion cuestiones internas</a>
-                        <a class="btn btn-primary btn-md btn-block" > Gestion partes interesadas</a>
+                        <a class="btn btn-primary btn-md btn-block" href="{{ path("get_fce") }}"> Gestion partes interesadas</a>
                         <a class="btn btn-primary btn-md btn-block " href="{{ path("cuestiones_externas_dafo_list") }}" > Gestion aspectos favorables y desfaborables Externos</a>
                         <a class="btn btn-primary btn-md btn-block" href="{{ path("cuestiones_internas_dafo_list") }}" > Gestion aspectos favorables y desfaborables Internos</a>
                         <a class="btn btn-primary btn-md btn-block" href="{{ path("list_all_aspectos") }}" >DAFO</a>
