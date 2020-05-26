@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\SubtipoType;
 use App\Entity\Subtipos;
+use App\Entity\UnidadGestion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,6 +52,10 @@ class SubTiposController extends AbstractController
      * @Route("/subtipos/nuevo", name="subtipos_nuevo")
      */
     public function addSubTipo(Request $request){
+        $id = $_GET["id"];
+
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($id);
+
         $subtipo = new Subtipos();
         $form = $this->createForm(SubTipoType::class, $subtipo, array('submit'=>'Crear Subtipo'));
         $form->handleRequest($request);
@@ -59,7 +64,7 @@ class SubTiposController extends AbstractController
            $entityManager = $this->getDoctrine()->getManager();
            $entityManager->persist($subtipo);
            $entityManager->flush();
-           return $this->redirectToRoute('cuestiones_internas_list');
+           return $this->redirectToRoute('cuestiones_internas_list',['id' => $udGestion->getId()]);
         }
 
         return $this->render('cuestiones/internas/cuestion.html.twig',array(
@@ -69,10 +74,11 @@ class SubTiposController extends AbstractController
     }
 
       /**
-      * @Route("/subtipos/edita/{id}" , name="subtipos_edita")
+      * @Route("/subtipos/edita/{id}/{ugId}" , name="subtipos_edita")
       */
 
-      public function editSubTipo(Request $request, $id){
+      public function editSubTipo(Request $request, $id, $ugId){
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($ugId);
 
         $subtipo = $this->getDoctrine()->getRepository(SubTipos::class)
         ->find($id);
@@ -86,7 +92,7 @@ class SubTiposController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($subtipo);
             $entityManager->flush();
-            return $this->redirectToRoute('cuestiones_internas_list');
+            return $this->redirectToRoute('cuestiones_internas_list',['id' => $udGestion->getId()]);
         }
         return $this->render('subtipos/subtipo.html.twig', array(
             'form'=>$form->createView(),

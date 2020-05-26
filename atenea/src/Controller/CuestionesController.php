@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Cuestiones;
 use App\Entity\Subtipos;
 use App\Entity\Tipos;
+use App\Entity\UnidadGestion;
 
 class CuestionesController extends AbstractController{
     /**
@@ -27,13 +28,14 @@ class CuestionesController extends AbstractController{
     }
 
     /**
-     * @Route("/cuestiones/list/bysub/{id}", name="list_cuestiones")
+     * @Route("/cuestiones/list/bysub/{id}/{ugId}", name="list_cuestiones")
      */
 
-    public function listOne(Request $request){
-        $subId = $request->request->get('id');
+    public function listOne(Request $request, $id, $ugId){
+
         $cuestiones = $this->getDoctrine()->getRepository(Cuestiones::Class)
-        ->findBySubTipo($subId);
+        ->findBySubTipo($id, $ugId);
+
         if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
             $jsonData = array();
             $idx = 0;
@@ -107,14 +109,17 @@ class CuestionesController extends AbstractController{
 
      public function addCuestionInterna(Request $request){
         $cuestionInterna = new Cuestiones();
+        $id = $_GET["id"];
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($id);
         $form = $this->createForm(CuestionType::class, $cuestionInterna, array('submit'=>'Crear cuestion'));
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
            $cuestionInterna = $form->getData();
+           $cuestionInterna->addCuestionUnidadGestion($udGestion);
            $entityManager = $this->getDoctrine()->getManager();
            $entityManager->persist($cuestionInterna);
            $entityManager->flush();
-           return $this->redirectToRoute('cuestiones_internas_list');
+           return $this->redirectToRoute('cuestiones_internas_list',['id' => $udGestion->getId()]);
         }
 
         return $this->render('cuestiones/internas/cuestion.html.twig',array(
@@ -130,14 +135,17 @@ class CuestionesController extends AbstractController{
 
       public function addCuestionExterna(Request $request){
         $cuestionInterna = new Cuestiones();
+        $id = $_GET["id"];
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($id);
         $form = $this->createForm(CuestionType::class, $cuestionInterna, array('submit'=>'Crear cuestion'));
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
            $cuestionInterna = $form->getData();
+           $cuestionInterna->addCuestionUnidadGestion($udGestion);
            $entityManager = $this->getDoctrine()->getManager();
            $entityManager->persist($cuestionInterna);
            $entityManager->flush();
-           return $this->redirectToRoute('cuestiones_externas_list');
+           return $this->redirectToRoute('cuestiones_externas_list',['id' => $udGestion->getId()]);
         }
 
         return $this->render('cuestiones/externas/cuestion.html.twig',array(
@@ -148,9 +156,11 @@ class CuestionesController extends AbstractController{
      }
 
      /**
-      * @Route("/cuestiones/internas/edita/{id<\d+>}", name="cuestiones_internas_edita")
+      * @Route("/cuestiones/internas/edita/{id}/{ugId}", name="cuestiones_internas_edita")
       */
-     public function editCuestionInterna($id, Request $request){
+     public function editCuestionInterna($id, Request $request, $ugId){
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($ugId);
+
         $cuestion = $this->getDoctrine()->getRepository(Cuestiones::class)
         ->find($id);
 
@@ -163,7 +173,7 @@ class CuestionesController extends AbstractController{
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cuestion);
             $entityManager->flush();
-            return $this->redirectToRoute('cuestiones_internas_list');
+            return $this->redirectToRoute('cuestiones_internas_list',['id' => $udGestion->getId()]);
         }
         return $this->render('cuestiones/internas/cuestion.html.twig', array(
             'form'=>$form->createView(),
@@ -172,9 +182,10 @@ class CuestionesController extends AbstractController{
      }
 
       /**
-      * @Route("/cuestiones/externas/edita/{id<\d+>}", name="cuestiones_internas_edita")
+      * @Route("/cuestiones/externas/edita/{id}/{ugId}", name="cuestiones_externas_edita")
       */
-      public function editCuestionExterna($id, Request $request){
+      public function editCuestionExterna($id, Request $request, $ugId){
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($ugId);
         $cuestion = $this->getDoctrine()->getRepository(Cuestiones::class)
         ->find($id);
 
@@ -187,7 +198,7 @@ class CuestionesController extends AbstractController{
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cuestion);
             $entityManager->flush();
-            return $this->redirectToRoute('cuestiones_externas_list');
+            return $this->redirectToRoute('cuestiones_externas_list',['id' => $udGestion->getId()]);
         }
         return $this->render('cuestiones/externas/cuestion.html.twig', array(
             'form'=>$form->createView(),
