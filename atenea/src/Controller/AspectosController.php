@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Cuestiones;
 use App\Entity\Aspectos;
+use App\Entity\FactoresRiesgo;
 
 class AspectosController extends AbstractController{
 
@@ -25,9 +26,11 @@ class AspectosController extends AbstractController{
      */
 
      public function getAllAspectos(Request $request){
+        $factores = $this->getDoctrine()->getRepository(FactoresRiesgo::class)
+        ->findAll();
         $aspectos = $this->getDoctrine()->getRepository(Aspectos::class)
         ->findAll(); 
-        return $this->render('factores/list.html.twig', ['aspectos'=>$aspectos]);
+        return $this->render('factores/list.html.twig', ['aspectos'=>$aspectos, 'factores'=>$factores]);
 
     }
     /**

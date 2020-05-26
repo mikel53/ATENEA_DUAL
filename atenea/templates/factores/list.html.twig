@@ -25,7 +25,7 @@
                     <div class="col-md-6 text-center">
                         <h3>Debilidades</h3>
                         <table class="table">
-                            <thead  class="bg-info text-white ">
+                            <thead class="bg-info text-white ">
                                 <th>Nombre</th>
                             </thead>
                             <tbody>
@@ -109,7 +109,15 @@
                                                         <thead class="bg-info text-white">
                                                             <th>Nombre</th>
                                                         </thead>
-                                                        <tbody></tbody>
+                                                        <tbody>
+                                                            {% for f in factores %}
+                                                                <tr>
+                                                                    <td class="text-dark">
+                                                                        <a href="{{ path("get_fce_one", {id: f.id}) }}">{{ f.nombre }}</a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
                                                     </table>
                                                     <a id="guardar" class="btn btn-info text-white">Gravar Potencial FCE</a>
                                                 </div>

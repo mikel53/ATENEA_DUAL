@@ -71,6 +71,7 @@
     {% block javascripts %}
         <script>
             $(document).ready(function () {
+
                 $(".cuestion").on("click", function (event) {
                     $('.debilidad').remove();
                     $('.fortaleza').remove();
@@ -84,7 +85,8 @@
                         url: 'aspectos/' + cid,
                         type: 'POST',
                         data: {
-                            id: cid
+                            id: cid,
+                            ugId: uId
                         },
                         dataType: 'json',
                         async: true,

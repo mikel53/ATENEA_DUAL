@@ -211,6 +211,7 @@ class CuestionesController extends AbstractController{
          * @Route("/cuestiones/externas/dafo/list", name="cuestiones_externas_dafo_list")
          */
         public function listCuestionesExternas(){
+
             $usuario = $this->get('security.token_storage')->getToken()->getUser();
             $cuestiones = $this->getDoctrine()->getRepository(Cuestiones::Class)
             ->findByExternas();
