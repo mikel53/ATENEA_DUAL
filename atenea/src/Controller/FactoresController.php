@@ -46,7 +46,8 @@ class FactoresController extends AbstractController{
      */
 
      public function getFactores(){
-        $factores = $this->getDoctrine()->getRepository(FactoresRiesgo::class)
+        $factores = $this->getDoctrine()
+        ->getRepository(FactoresRiesgo::class)
         ->findAll(); 
         return $this->render('factores/list_fce.html.twig', ['factores'=>$factores]);
 
@@ -64,7 +65,6 @@ class FactoresController extends AbstractController{
             $myArr = json_decode($arr, true);
 
             foreach($myArr as $aspecto){
-                echo $aspecto;
                 $aspecto = $this->getDoctrine()->getRepository(Aspectos::Class)
                 ->find($aspecto);
                 $factor->addFactoresRiesgoAspecto($aspecto);

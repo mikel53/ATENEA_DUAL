@@ -121,24 +121,32 @@
                                             <script>
                                                 var aspectos = [];
                                                 $(".aspecto").on("click", function (event) {
-                                                    $(this).css("background-color", "#bfbfbf");
+
                                                     var aid = $(this);
-                                                    aspectos.push(aid[0].firstElementChild.id);
+                                                    if ($(aid).css("background-color") === "rgb(191, 191, 191)") {
+                                                        aspectos.pop(aid[0].firstElementChild.id);
+                                                        $(aid).css("background-color", "");
+                                                    } else {
+                                                        console.log(aid[0].firstElementChild.id);
+                                                        aspectos.push(aid[0].firstElementChild.id);
+                                                        $(this).css("background-color", "#bfbfbf");
+
+                                                    }
                                                     $("#guardar").on("click", function (event) {
                                                         JSON.stringify(aspectos);
                                                         $.ajax({
                                                             type: 'POST',
                                                             dataType: 'text',
-                                                            data:
-                                                                {arr: aspectos}
-                                                            ,
+                                                            data: {
+                                                                arr: aspectos
+                                                            },
                                                             url: 'json',
                                                             success: function (data) {
                                                                 window.location.replace('add/' + data);
                                                             },
                                                             error(msg) {
                                                                 alert(msg);
-                                                                //window.location.replace('add');
+                                                                // window.location.replace('add');
                                                             }
                                                         });
                                                         // console.log(aspectos);

@@ -24,25 +24,30 @@ class CuestionesRepository extends ServiceEntityRepository
 
 
 
-    public function findBySubTipo($id){
+    public function findBySubTipo($id, $udId){
         $q = $this->createQueryBuilder('c')
-        ->where('c.subtipos=:subtipos_id')->setParameter('subtipos_id', $id)
+        ->innerJoin('c.cuestion_unidadGestion', 'ug')
+        ->where('c.subtipos=:subtipos_id')
+        ->andWhere('ug.id= :id')
+        ->setParameter('subtipos_id', $id)
+        ->setParameter("id", $udId)
         ->getQuery()->getResult();
         return $q;
     }
 
-    public function findByExternas(){
+    public function findByExternas($id){
         $q = $this->createQueryBuilder('c')
         ->innerJoin('c.subtipos', 'st')
         ->innerJoin('st.tipos', 't')
         ->where('c.subtipos = st.id')
         ->andWhere('st.tipos = t.id')
         ->andWhere('t.interno = 0')
+        ->setParameter('id', $id)
         ->getQuery()->getResult();
         return $q;
     }
 
-    public function findByInternas(){
+    public function findByInternas($id){
         $q = $this->createQueryBuilder('c')
         ->innerJoin('c.subtipos', 'st')
         ->innerJoin('st.tipos', 't')

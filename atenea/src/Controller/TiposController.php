@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 use App\Entity\Tipos;
+use App\Entity\UnidadGestion;
 
 class TiposController extends AbstractController{
 
@@ -21,19 +22,23 @@ class TiposController extends AbstractController{
      */
 
     public function list(Request $request){
+        $id = $_GET["id"];
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($id);
         $usuario = $this->get('security.token_storage')->getToken()->getUser();
         $tipos = $this->getDoctrine()->getRepository(Tipos::Class)
         ->findByInternos();
-        return $this->render('cuestiones/internas/list.html.twig', ['tipos'=>$tipos]);
+        return $this->render('cuestiones/internas/list.html.twig', ["udGestion"=>$udGestion, 'tipos'=>$tipos]);
     }
     /**
      * @Route("cuestiones/externas/list", name="cuestiones_externas_list")
      */
     public function listExternas(Request $request){
+        $id = $_GET["id"];
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($id);
         $usuario = $this->get('security.token_storage')->getToken()->getUser();
         $tipos = $this->getDoctrine()->getRepository(Tipos::Class)
         ->findByExternos();
-        return $this->render('cuestiones/externas/list.html.twig', ['tipos'=>$tipos]);
+        return $this->render('cuestiones/externas/list.html.twig', ["udGestion"=>$udGestion,'tipos'=>$tipos]);
     }
 
  
@@ -43,6 +48,8 @@ class TiposController extends AbstractController{
      */
 
      public function addTipo(Request $request){
+        $id = $_GET["id"];
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($id);
         $tipo = new Tipos();
         $form = $this->createForm(TipoType::class, $tipo, array('submit'=>'Crear tipo'));
         $form->handleRequest($request);
@@ -51,8 +58,8 @@ class TiposController extends AbstractController{
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tipo);
             $entityManager->flush();
-            return $this->redirectToRoute('cuestiones_internas_list');
-         }
+            return $this->redirectToRoute('cuestiones_internas_list',['id' => $udGestion->getId()]);
+        }
          return $this->render('tipos/tipo.html.twig',array(
             'form'=>$form->createView(),
             'title' => 'Nuevo Tipo',
@@ -60,10 +67,12 @@ class TiposController extends AbstractController{
      }
 
      /**
-      * @Route("/tipos/edita/{id}" , name="tipos_edita")
+      * @Route("/tipos/edita/{id}/{ugId}" , name="tipos_edita")
       */
 
-      public function editTipo(Request $request, $id){
+      public function editTipo(Request $request, $id, $ugId){
+
+        $udGestion = $this->getDoctrine()->getRepository(UnidadGestion::class)->find($ugId);
 
         $tipo = $this->getDoctrine()->getRepository(Tipos::class)
         ->find($id);
@@ -77,7 +86,7 @@ class TiposController extends AbstractController{
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tipo);
             $entityManager->flush();
-            return $this->redirectToRoute('cuestiones_internas_list');
+            return $this->redirectToRoute('cuestiones_internas_list',['id' => $udGestion->getId()]);
         }
         return $this->render('tipos/tipo.html.twig', array(
             'form'=>$form->createView(),

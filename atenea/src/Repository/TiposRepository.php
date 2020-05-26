@@ -30,7 +30,8 @@ class TiposRepository extends ServiceEntityRepository
     public function findByExternos(){
         $q = $this->createQueryBuilder('t')
         ->select('t')
-        ->Where('t.interno=0')->getQuery();
+        ->Where('t.interno=0')
+        ->getQuery();
         $result = $q->getResult();
         return $result;
     }

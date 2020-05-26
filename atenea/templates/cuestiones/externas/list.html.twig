@@ -1,25 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}QSSMA{% endblock %}
+{% block title %}QSSMA
+{% endblock %}
 
 
 {% block body %}
     <section class="bg-white text-black mb-0">
         <div class="container">
             <section class="row">
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-4">
-                </div>
+                <div class="col-md-8"></div>
+                <div class="col-md-4"></div>
             </section>
 
 
             {% for message in app.flashes('notice') %}
                 <div class="alert alert-success">
-                    <strong>Success!</strong> {{ message }}
+                    <strong>Success!</strong>
+                    {{ message }}
                 </div>
             {% endfor %}
             <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center">Unidad Gestion:
+                        <b>{{ udGestion.nombre }}</b>
+                    </h1>
+
+                </div>
+            </div>
+            <div class="row">
+
                 <div class="col-md-4">
                     <h1>Id i nombre Tipos</h1>
                     <table id="tipos" class="table table-striped">
@@ -30,13 +39,17 @@
                         <tbody>
                             {% for t in tipos %}
                                 <tr class="tipo">
-                                    <td> {{t.id }} </td>
-                                    <td> {{ t.descripcion }} </td>
+                                    <td>
+                                        {{ t.id }}
+                                    </td>
+                                    <td>
+                                        {{ t.descripcion }}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                         <tfooter>
-                            <a class="btn btn-secondary btn-md" href="{{ path('tipos_nuevo') }}">Nuevo</a>
+                            <a class="btn btn-secondary btn-md" href="{{ path('tipos_nuevo', {'id': udGestion.id}) }}">Nuevo</a>
                             <a id="tEdit" class="btn btn-secondary btn-md">Editar</a>
 
                         </tfooter>
@@ -49,104 +62,188 @@
                             <th>Id</th>
                             <th>Subtipos</th>
                         </thead>
-                        <tbody>
-
-                        </tbody>
+                        <tbody></tbody>
                         <tfooter>
-                            <a class="btn btn-secondary btn-md" href="{{ path('subtipos_nuevo') }}">Nuevo</a>
+                            <a class="btn btn-secondary btn-md" href="{{ path('subtipos_nuevo', {'id': udGestion.id}) }}">Nuevo</a>
+                            <a id="subEdit" class="btn btn-secondary btn-md">Editar</a>
                         </tfooter>
                     </table>
                 </div>
                 <div class="col-md-4">
                     <h1>Id i nombre QE</h1>
-                    <table  id="cuestion" class="table table-striped">
+                    <table id="cuestion" class="table table-striped">
                         <thead>
                             <th>Id</th>
                             <th>Nombre</th>
-                        <thead>
-                        <tbody>
+                            <thead>
+                                <tbody></tbody>
+                                <tfooter>
+                                    <a class="btn btn-secondary btn-md" href="{{ path('cuestiones_externas_nuevo', {'id': udGestion.id}) }}">Nuevo</a>
+                                    <a id="cuestionEdit" class="btn btn-secondary btn-md">Editar</a>
+                                </tfooter>
+                            </table>
+                        </div>
 
-                        </tbody>
-                        <tfooter>
-                            <a class="btn btn-secondary btn-md" href="{{ path('cuestiones_externas_nuevo') }}">Nuevo</a>
-                            <a id="cuestionEdit" class="btn btn-secondary btn-md">Editar</a>
-                        </tfooter>
-                    </table>
+                    </div>
+
                 </div>
 
-            </div>
+            </section>
 
-        </div>
+        {% endblock %}
 
-    </section>
+        {% block javascripts %}
+            <script>
+                $(document).ready(function () {
+                    var getUrlParameter = function getUrlParameter(sParam) {
+                        var sPageURL = window.location.search.substring(1),
+                            sURLVariables = sPageURL.split('&'),
+                            sParameterName,
+                            i;
 
-{% endblock %}
+                        for (i = 0; i < sURLVariables.length; i++) {
+                            sParameterName = sURLVariables[i].split('=');
 
-{% block javascripts %}
-
-    <script>
-        $(document).ready(function(){
-
-            $(".tipo").on("click", function(event){
-                $(".cuestion").remove();
-                $(".subtipo").remove();
-                var u = ($(this).index());
-                var uid = $(".tipo")[u];
-                uid = uid.children[0].innerText;
-                $.ajax({
-                    url:  '../list/' + uid,
-                    type: 'POST',
-                    data: {id: uid},
-                    dataType: 'json',
-                    async: true,
-
-                    success: function(data, status){
-                        for(i = 0; i < data.length; i++){
-                            var subtipus = data[i];
-                            var e = $('<tr class="subtipo"><td id="subtipus_id"></td><td id="subtipus_nom"></td></tr>')
-                            $('#subtipus_id', e).html(subtipus["id"]);
-                            $('#subtipus_nom',e).html(subtipus["descripcion"]);
-                            $('#subtipus').append(e);
+                            if (sParameterName[0] === sParam) {
+                                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                            }
                         }
-                            $(".subtipo").on("click", function (event) {
-                            $(".cuestion").remove();
-                            var c = ($(this).index());
-                            var cid = $(".subtipo")[c];
-                            cid = cid.children[0].innerText;
-
+                    };
+                    var uId = getUrlParameter("id");
+                    $(".tipo").on("click", function (event) {
+                        $(".tipo").css("background-color", "");
+                        ($(this)).css("background-color", "#bfbfbf");
+                        $(".cuestion").remove();
+                        $(".subtipo").remove();
+                        var u = ($(this).index());
+                        var uid = $(".tipo")[u];
+                        uid = uid.children[0].innerText;
                         $.ajax({
-                            url: '../list/bysub/' + cid,
-                            type: "POST",
-                            data: { id: cid},
+                            url: '../list/' + uid,
+                            type: 'POST',
+                            data: {
+                                id: uid
+                            },
                             dataType: 'json',
                             async: true,
 
-                    success: function (data, status) {
-                            for(i = 0; i < data.length; i++){
-                                var cuestion = data[i];
-                                var e = $('<tr class="cuestion"><td id="cuestion_id"></td><td id="cuestion_nom"></td></tr>')
-                                $('#cuestion_id', e).html(cuestion["id"]);
-                                $('#cuestion_nom',e).html(cuestion["descripcion"]);
-                                $('#cuestion').append(e);
-                            }
-                                    console.log(data);
-                                },
-                                error: function (xhr, textStatus, errorThrown) {
-                                    alert('Ajax request failed');
+                            success: function (data, status) {
+                                for (i = 0; i < data.length; i ++) {
+                                    var subtipus = data[i];
+                                    var e = $('<tr class="subtipo"><td id="subtipus_id"></td><td id="subtipus_nom"></td></tr>')
+                                    $('#subtipus_id', e).html(subtipus["id"]);
+                                    $('#subtipus_nom', e).html(subtipus["descripcion"]);
+                                    $('#subtipus').append(e);
                                 }
-                            });
+                                $("#tEdit").on("click", function (event) {
+                                    $.ajax({
+                                        url: '../../tipos/edita/' + uid + "/" + uId,
+                                        type: 'POST',
+                                        data: {
+                                            id: uid,
+                                            ugId: uId
+
+                                        },
+                                        dataType: 'html',
+                                        async: true,
+                                        success: function (data, status) {
+                                            window.location.replace('../../tipos/edita/' + uid + "/" + uId);
+                                        },
+                                        error: function (xhr, textStatus, errorThrown) {
+                                            alert('Ajax request failed');
+                                        }
+                                    });
+                                });
+                                $(".subtipo").on("click", function (event) {
+                                    $(".subtipo").css("background-color", "");
+                                    ($(this)).css("background-color", "#bfbfbf");
+                                    $(".cuestion").remove();
+                                    var c = ($(this).index());
+                                    var cid = $(".subtipo")[c];
+                                    cid = cid.children[0].innerText;
+
+                                    $.ajax({
+                                        url: '../list/bysub/' + cid + "/" + uId,
+                                        type: "POST",
+                                        data: {
+                                            id: cid
+                                        },
+                                        dataType: 'json',
+                                        async: true,
+
+                                        success: function (data, status) {
+                                            for (i = 0; i < data.length; i ++) {
+                                                var cuestion = data[i];
+                                                var e = $('<tr class="cuestion"><td id="cuestion_id"></td><td id="cuestion_nom"></td></tr>')
+                                                $('#cuestion_id', e).html(cuestion["id"]);
+                                                $('#cuestion_nom', e).html(cuestion["descripcion"]);
+                                                $('#cuestion').append(e);
+                                            }
+                                            $("#subEdit").on("click", function (event) {
+
+                                                $.ajax({
+                                                    url: '../../subtipos/edita/' + cid + "/" + uId,
+                                                    type: 'POST',
+                                                    data: {
+                                                        id: cid,
+                                                        ugId: uId
+                                                    },
+                                                    dataType: 'html',
+                                                    async: true,
+                                                    success: function (data, status) {
+                                                        window.location.replace('../../subtipos/edita/' + cid + "/" + uId);
+                                                    },
+                                                    error: function (xhr, textStatus, errorThrown) {
+                                                        alert('Ajax request failed');
+                                                    }
+                                                });
+                                            });
+
+                                            $(".cuestion").on("click", function (event) {
+                                                $(".cuestion").css("background-color", "");
+                                                ($(this)).css("background-color", "#bfbfbf");
+                                                var c = ($(this).index());
+                                                var cid = $(".cuestion")[c];
+                                                cid = cid.children[0].innerText;
+                                                $.ajax({
+                                                    url: '../../cuestiones/internas/edita/' + cid + '/' + uId,
+                                                    type: 'POST',
+                                                    data: {
+                                                        id: cid,
+                                                        ugId: uId
+                                                    },
+                                                    dataType: 'html',
+                                                    async: true,
+                                                    success: function (data, status) {
+                                                        $("#cuestionEdit").on("click", function (event) {
+                                                            window.location.replace('../../cuestiones/internas/edita/' + cid + '/' + uId);
+
+                                                        });
+                                                    },
+                                                    error: function (xhr, textStatus, errorThrown) {
+                                                        alert('Ajax request failed');
+                                                    }
+
+                                                });
+                                            });
+
+
+                                        },
+                                        error: function (xhr, textStatus, errorThrown) {
+                                            alert('Ajax request failed');
+                                        }
+                                    });
+                                });
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert('Ajax request failed.');
+                            }
                         });
-                    },
-                    error : function(xhr, textStatus, errorThrown) {
-                        alert('Ajax request failed.');
-                    }
-               });
 
-            });
+                    });
 
 
-        });
+                });
+            </script>
 
-    </script>
-
-{% endblock %}
+        {% endblock %}
